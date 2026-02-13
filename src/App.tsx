@@ -107,6 +107,12 @@ export default function App() {
     setCurrentScreen(screen as Screen);
   }, [session]);
 
+  const handleSignOut = useCallback(async () => {
+    await supabase.auth.signOut();
+    setSession(null);
+    navigateToScreen('landing');
+  }, [navigateToScreen]);
+
   useEffect(() => {
     const initApp = async () => {
       const urlParams = new URLSearchParams(window.location.search);
@@ -219,7 +225,7 @@ export default function App() {
 
     switch (currentScreen) {
       case 'landing':
-        return <LandingPage onNavigate={navigateToScreen} />;
+        return <LandingPage onNavigate={navigateToScreen} session={session} onSignOut={handleSignOut} />;
       case 'upload':
         return <UploadPage onNavigate={navigateToScreen} data={analysisData} />;
       case 'dashboard':

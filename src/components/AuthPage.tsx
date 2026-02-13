@@ -1,11 +1,10 @@
-
 import { useState } from 'react';
 import { supabase } from '../utils/supabase/client';
-import { Sparkles, Loader2, ArrowRight, Mail } from 'lucide-react';
+import { Loader2, ArrowLeft, Target } from 'lucide-react';
 import { toast } from 'sonner';
 
 interface AuthPageProps {
-    onNavigate: (screen: 'landing' | 'upload' | 'dashboard' | 'report' | 'influencer-library' | 'chat') => void;
+    onNavigate: (screen: string, data?: any) => void;
 }
 
 export function AuthPage({ onNavigate }: AuthPageProps) {
@@ -14,14 +13,13 @@ export function AuthPage({ onNavigate }: AuthPageProps) {
     const [password, setPassword] = useState('');
     const [loading, setLoading] = useState(false);
 
-    // Handle Google Auth
     const handleGoogleLogin = async () => {
         try {
             setLoading(true);
             const { error } = await supabase.auth.signInWithOAuth({
                 provider: 'google',
                 options: {
-                    redirectTo: `${window.location.origin}/upload`, // Redirect back to app
+                    redirectTo: `${window.location.origin}/upload`,
                 },
             });
             if (error) throw error;
@@ -31,27 +29,18 @@ export function AuthPage({ onNavigate }: AuthPageProps) {
         }
     };
 
-    // Handle Email Auth
     const handleEmailAuth = async (e: React.FormEvent) => {
         e.preventDefault();
         setLoading(true);
-
         try {
             if (isSignUp) {
-                const { error } = await supabase.auth.signUp({
-                    email,
-                    password,
-                });
+                const { error } = await supabase.auth.signUp({ email, password });
                 if (error) throw error;
                 toast.success('Check your email for the confirmation link!');
             } else {
-                const { error } = await supabase.auth.signInWithPassword({
-                    email,
-                    password,
-                });
+                const { error } = await supabase.auth.signInWithPassword({ email, password });
                 if (error) throw error;
                 toast.success('Successfully signed in!');
-                // Navigation handled by onAuthStateChange in App.tsx
             }
         } catch (error: any) {
             toast.error(error.message || 'Authentication error');
@@ -61,107 +50,340 @@ export function AuthPage({ onNavigate }: AuthPageProps) {
     };
 
     return (
-        <div className="min-h-screen bg-slate-50 flex flex-col">
-            {/* Header - Simplified */}
-            <header className="px-6 h-[72px] flex items-center justify-between border-b border-slate-200 bg-white/80 backdrop-blur-md sticky top-0 z-50">
-                <div className="flex items-center gap-2 cursor-pointer" onClick={() => onNavigate('landing')}>
-                    <div className="w-8 h-8 bg-black rounded-lg flex items-center justify-center">
-                        <Sparkles className="w-5 h-5 text-white" />
-                    </div>
-                    <span className="font-bold text-xl tracking-tight text-slate-900">DesignSnapper</span>
+        <div style={{
+            minHeight: '100vh',
+            background: '#FAFBFC',
+            display: 'flex',
+            flexDirection: 'column',
+            alignItems: 'center',
+            justifyContent: 'center',
+            fontFamily: "'Inter', -apple-system, BlinkMacSystemFont, sans-serif",
+            position: 'relative',
+            padding: '24px',
+        }}>
+            {/* Back Button */}
+            <button
+                onClick={() => onNavigate('landing')}
+                style={{
+                    position: 'absolute',
+                    top: 32,
+                    left: 32,
+                    display: 'flex',
+                    alignItems: 'center',
+                    gap: 8,
+                    fontSize: 11,
+                    fontWeight: 700,
+                    color: '#94a3b8',
+                    textTransform: 'uppercase',
+                    letterSpacing: '0.1em',
+                    background: 'none',
+                    border: 'none',
+                    cursor: 'pointer',
+                    transition: 'color 0.2s',
+                }}
+                onMouseEnter={(e) => e.currentTarget.style.color = '#475569'}
+                onMouseLeave={(e) => e.currentTarget.style.color = '#94a3b8'}
+            >
+                <ArrowLeft size={14} /> BACK
+            </button>
+
+            {/* Logo */}
+            <div style={{
+                display: 'flex',
+                flexDirection: 'column',
+                alignItems: 'center',
+                gap: 12,
+                marginBottom: 40,
+            }}>
+                <div style={{
+                    width: 48,
+                    height: 48,
+                    background: '#0F172A',
+                    borderRadius: 14,
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    boxShadow: '0 8px 24px rgba(15,23,42,0.25)',
+                    transform: 'rotate(-2deg)',
+                }}>
+                    <Target size={24} color="white" />
                 </div>
-            </header>
+                <span style={{
+                    fontWeight: 900,
+                    fontSize: 20,
+                    letterSpacing: '-0.03em',
+                    color: '#0F172A',
+                    textTransform: 'uppercase',
+                    fontStyle: 'italic',
+                }}>Snapper.</span>
+            </div>
 
-            <div className="flex-1 flex items-center justify-center p-6">
-                <div className="w-full max-w-md bg-white rounded-2xl shadow-xl border border-slate-100 p-8">
-                    <div className="text-center mb-8">
-                        <h1 className="text-2xl font-bold text-slate-900 mb-2">
-                            {isSignUp ? 'Create an account' : 'Welcome back'}
-                        </h1>
-                        <p className="text-slate-500 text-sm">
-                            {isSignUp
-                                ? 'Start auditing your designs with AI today'
-                                : 'Sign in to access your audit dashboard'}
-                        </p>
+            {/* Auth Card */}
+            <div style={{
+                width: '100%',
+                maxWidth: 440,
+                background: 'white',
+                borderRadius: 28,
+                boxShadow: '0 24px 48px -12px rgba(0,0,0,0.08)',
+                padding: '48px 44px',
+                border: '1px solid rgba(226,232,240,0.6)',
+            }}>
+                {/* Header */}
+                <div style={{ marginBottom: 36 }}>
+                    <h1 style={{
+                        fontSize: 26,
+                        fontWeight: 700,
+                        color: '#0F172A',
+                        marginBottom: 8,
+                        letterSpacing: '-0.02em',
+                        lineHeight: 1.2,
+                    }}>
+                        {isSignUp ? 'Create Account' : 'Welcome Back'}
+                    </h1>
+                    <p style={{
+                        fontSize: 14,
+                        color: '#94a3b8',
+                        fontWeight: 500,
+                        lineHeight: 1.6,
+                        margin: 0,
+                    }}>
+                        {isSignUp
+                            ? 'Enter your details to create your account.'
+                            : 'Enter your credentials to access your audits.'}
+                    </p>
+                </div>
+
+                {/* Google Button */}
+                <button
+                    onClick={handleGoogleLogin}
+                    disabled={loading}
+                    style={{
+                        width: '100%',
+                        height: 48,
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        gap: 10,
+                        background: 'white',
+                        border: '1px solid #e2e8f0',
+                        borderRadius: 12,
+                        fontSize: 11,
+                        fontWeight: 800,
+                        color: '#0F172A',
+                        textTransform: 'uppercase',
+                        letterSpacing: '0.12em',
+                        cursor: loading ? 'wait' : 'pointer',
+                        transition: 'all 0.2s',
+                        marginBottom: 28,
+                    }}
+                    onMouseEnter={(e) => { e.currentTarget.style.background = '#f8fafc'; e.currentTarget.style.borderColor = '#cbd5e1'; }}
+                    onMouseLeave={(e) => { e.currentTarget.style.background = 'white'; e.currentTarget.style.borderColor = '#e2e8f0'; }}
+                >
+                    {loading ? (
+                        <Loader2 size={16} style={{ animation: 'spin 1s linear infinite' }} />
+                    ) : (
+                        <>
+                            <svg width="16" height="16" viewBox="0 0 24 24">
+                                <path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92a5.06 5.06 0 01-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4" />
+                                <path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853" />
+                                <path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z" fill="#FBBC05" />
+                                <path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" fill="#EA4335" />
+                            </svg>
+                            Continue with Google
+                        </>
+                    )}
+                </button>
+
+                {/* Divider */}
+                <div style={{
+                    display: 'flex',
+                    alignItems: 'center',
+                    gap: 16,
+                    marginBottom: 28,
+                }}>
+                    <div style={{ flex: 1, height: 1, background: '#f1f5f9' }} />
+                    <span style={{
+                        fontSize: 10,
+                        fontWeight: 700,
+                        color: '#cbd5e1',
+                        textTransform: 'uppercase',
+                        letterSpacing: '0.15em',
+                    }}>Or use email</span>
+                    <div style={{ flex: 1, height: 1, background: '#f1f5f9' }} />
+                </div>
+
+                {/* Form */}
+                <form onSubmit={handleEmailAuth}>
+                    {/* Email */}
+                    <div style={{ marginBottom: 20 }}>
+                        <label style={{
+                            display: 'block',
+                            fontSize: 11,
+                            fontWeight: 700,
+                            color: '#334155',
+                            textTransform: 'uppercase',
+                            letterSpacing: '0.05em',
+                            marginBottom: 8,
+                        }}>Email Address</label>
+                        <input
+                            type="email"
+                            required
+                            value={email}
+                            onChange={(e) => setEmail(e.target.value)}
+                            placeholder="name@company.com"
+                            style={{
+                                width: '100%',
+                                height: 48,
+                                padding: '0 16px',
+                                background: '#f8fafc',
+                                border: '1px solid transparent',
+                                borderRadius: 12,
+                                fontSize: 14,
+                                color: '#0F172A',
+                                outline: 'none',
+                                transition: 'all 0.2s',
+                                boxSizing: 'border-box',
+                            }}
+                            onFocus={(e) => { e.currentTarget.style.background = 'white'; e.currentTarget.style.border = '1px solid #cbd5e1'; e.currentTarget.style.boxShadow = '0 0 0 3px rgba(15,23,42,0.05)'; }}
+                            onBlur={(e) => { e.currentTarget.style.background = '#f8fafc'; e.currentTarget.style.border = '1px solid transparent'; e.currentTarget.style.boxShadow = 'none'; }}
+                        />
                     </div>
 
-                    {/* Social Auth */}
+                    {/* Password */}
+                    <div style={{ marginBottom: 28 }}>
+                        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 8 }}>
+                            <label style={{
+                                fontSize: 11,
+                                fontWeight: 700,
+                                color: '#334155',
+                                textTransform: 'uppercase',
+                                letterSpacing: '0.05em',
+                            }}>Password</label>
+                            <a href="#" style={{
+                                fontSize: 10,
+                                fontWeight: 800,
+                                color: '#94a3b8',
+                                textTransform: 'uppercase',
+                                letterSpacing: '0.12em',
+                                textDecoration: 'none',
+                            }}
+                                onMouseEnter={(e) => e.currentTarget.style.color = '#475569'}
+                                onMouseLeave={(e) => e.currentTarget.style.color = '#94a3b8'}
+                            >Forgot?</a>
+                        </div>
+                        <input
+                            type="password"
+                            required
+                            value={password}
+                            onChange={(e) => setPassword(e.target.value)}
+                            placeholder="••••••••"
+                            minLength={6}
+                            style={{
+                                width: '100%',
+                                height: 48,
+                                padding: '0 16px',
+                                background: '#f8fafc',
+                                border: '1px solid transparent',
+                                borderRadius: 12,
+                                fontSize: 14,
+                                color: '#0F172A',
+                                outline: 'none',
+                                transition: 'all 0.2s',
+                                boxSizing: 'border-box',
+                                letterSpacing: '0.15em',
+                            }}
+                            onFocus={(e) => { e.currentTarget.style.background = 'white'; e.currentTarget.style.border = '1px solid #cbd5e1'; e.currentTarget.style.boxShadow = '0 0 0 3px rgba(15,23,42,0.05)'; }}
+                            onBlur={(e) => { e.currentTarget.style.background = '#f8fafc'; e.currentTarget.style.border = '1px solid transparent'; e.currentTarget.style.boxShadow = 'none'; }}
+                        />
+                    </div>
+
+                    {/* Submit */}
                     <button
-                        onClick={handleGoogleLogin}
+                        type="submit"
                         disabled={loading}
-                        className="w-full flex items-center justify-center gap-3 bg-white border border-slate-200 text-slate-700 font-medium py-2.5 px-4 rounded-xl hover:bg-slate-50 transition-colors mb-6 relative group"
+                        style={{
+                            width: '100%',
+                            height: 48,
+                            background: '#0F172A',
+                            color: 'white',
+                            border: 'none',
+                            borderRadius: 12,
+                            fontSize: 11,
+                            fontWeight: 900,
+                            textTransform: 'uppercase',
+                            letterSpacing: '0.2em',
+                            cursor: loading ? 'wait' : 'pointer',
+                            display: 'flex',
+                            alignItems: 'center',
+                            justifyContent: 'center',
+                            gap: 8,
+                            transition: 'all 0.2s',
+                            boxShadow: '0 4px 12px rgba(15,23,42,0.15)',
+                            opacity: loading ? 0.7 : 1,
+                        }}
+                        onMouseEnter={(e) => { if (!loading) { e.currentTarget.style.background = '#1e293b'; e.currentTarget.style.transform = 'translateY(-1px)'; e.currentTarget.style.boxShadow = '0 6px 16px rgba(15,23,42,0.2)'; } }}
+                        onMouseLeave={(e) => { e.currentTarget.style.background = '#0F172A'; e.currentTarget.style.transform = 'translateY(0)'; e.currentTarget.style.boxShadow = '0 4px 12px rgba(15,23,42,0.15)'; }}
                     >
-                        {loading ? (
-                            <Loader2 className="w-5 h-5 animate-spin text-slate-400" />
-                        ) : (
-                            <>
-                                <svg className="w-5 h-5" aria-hidden="true" viewBox="0 0 24 24"><path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4" /><path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853" /><path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z" fill="#FBBC05" /><path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" fill="#EA4335" /></svg>
-                                <span>Continue with Google</span>
-                            </>
-                        )}
+                        {loading && <Loader2 size={14} style={{ animation: 'spin 1s linear infinite' }} />}
+                        {isSignUp ? 'Sign Up' : 'Sign In'}
                     </button>
+                </form>
 
-                    <div className="relative mb-6">
-                        <div className="absolute inset-0 flex items-center">
-                            <span className="w-full border-t border-slate-200" />
-                        </div>
-                        <div className="relative flex justify-center text-xs uppercase">
-                            <span className="bg-white px-2 text-slate-400">Or continue with</span>
-                        </div>
-                    </div>
-
-                    {/* Email Auth Form */}
-                    <form onSubmit={handleEmailAuth} className="space-y-4">
-                        <div>
-                            <label className="block text-sm font-medium text-slate-700 mb-1.5">Email address</label>
-                            <div className="relative">
-                                <input
-                                    type="email"
-                                    required
-                                    value={email}
-                                    onChange={(e) => setEmail(e.target.value)}
-                                    className="w-full px-4 py-2.5 bg-slate-50 border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all text-sm"
-                                    placeholder="name@company.com"
-                                />
-                                <Mail className="w-4 h-4 text-slate-400 absolute right-3 top-3 pointer-events-none" />
-                            </div>
-                        </div>
-
-                        <div>
-                            <label className="block text-sm font-medium text-slate-700 mb-1.5">Password</label>
-                            <input
-                                type="password"
-                                required
-                                value={password}
-                                onChange={(e) => setPassword(e.target.value)}
-                                className="w-full px-4 py-2.5 bg-slate-50 border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all text-sm"
-                                placeholder="••••••••"
-                                minLength={6}
-                            />
-                        </div>
-
-                        <button
-                            type="submit"
-                            disabled={loading}
-                            className="w-full bg-slate-900 text-white font-medium py-2.5 rounded-xl hover:bg-slate-800 transition-colors flex items-center justify-center gap-2 group disabled:opacity-70 disabled:cursor-not-allowed"
-                        >
-                            {loading && <Loader2 className="w-4 h-4 animate-spin" />}
-                            {isSignUp ? 'Create account' : 'Sign in'}
-                            {!loading && <ArrowRight className="w-4 h-4 group-hover:translate-x-0.5 transition-transform" />}
-                        </button>
-                    </form>
-
-                    <div className="mt-6 text-center text-sm text-slate-500">
-                        {isSignUp ? 'Already have an account?' : "Don't have an account?"}{' '}
-                        <button
-                            onClick={() => setIsSignUp(!isSignUp)}
-                            className="text-primary font-medium hover:underline focus:outline-none"
-                        >
-                            {isSignUp ? 'Sign in' : 'Sign up'}
-                        </button>
-                    </div>
+                {/* Toggle */}
+                <div style={{
+                    marginTop: 28,
+                    textAlign: 'center',
+                    fontSize: 13,
+                    color: '#94a3b8',
+                    fontWeight: 500,
+                }}>
+                    {isSignUp ? 'Already have an account?' : "Don't have an account?"}{' '}
+                    <button
+                        onClick={() => setIsSignUp(!isSignUp)}
+                        style={{
+                            background: 'none',
+                            border: 'none',
+                            color: '#0F172A',
+                            fontWeight: 700,
+                            cursor: 'pointer',
+                            fontSize: 13,
+                            padding: 0,
+                            marginLeft: 4,
+                        }}
+                        onMouseEnter={(e) => e.currentTarget.style.textDecoration = 'underline'}
+                        onMouseLeave={(e) => e.currentTarget.style.textDecoration = 'none'}
+                    >
+                        {isSignUp ? 'Sign In' : 'Sign Up'}
+                    </button>
                 </div>
             </div>
+
+            {/* Footer */}
+            <div style={{
+                position: 'absolute',
+                bottom: 28,
+                left: 0,
+                right: 0,
+                textAlign: 'center',
+            }}>
+                <p style={{
+                    fontSize: 10,
+                    fontWeight: 800,
+                    color: '#cbd5e1',
+                    textTransform: 'uppercase',
+                    letterSpacing: '0.2em',
+                    margin: 0,
+                }}>
+                    Secure Authentication · Design Snapper v4.0
+                </p>
+            </div>
+
+            <style>{`
+                @keyframes spin {
+                    from { transform: rotate(0deg); }
+                    to { transform: rotate(360deg); }
+                }
+            `}</style>
         </div>
     );
 }

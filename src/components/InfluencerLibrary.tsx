@@ -105,8 +105,8 @@ export function InfluencerLibrary({ onNavigate, data }: InfluencerLibraryProps) 
   const [search, setSearch] = useState('');
   const [selectedId, setSelectedId] = useState<string | null>(data?.selectedPersona || null);
 
-  const filteredInfluencers = INFLUENCERS.filter(inf => 
-    inf.name.toLowerCase().includes(search.toLowerCase()) || 
+  const filteredInfluencers = INFLUENCERS.filter(inf =>
+    inf.name.toLowerCase().includes(search.toLowerCase()) ||
     inf.role.toLowerCase().includes(search.toLowerCase()) ||
     inf.tags.some(tag => tag.toLowerCase().includes(search.toLowerCase()))
   );
@@ -127,8 +127,8 @@ export function InfluencerLibrary({ onNavigate, data }: InfluencerLibraryProps) 
           <h1 className="text-xl font-bold text-slate-900">Influencer Library</h1>
         </div>
         <div className="flex items-center gap-4">
-          <Button 
-            onClick={handleSave} 
+          <Button
+            onClick={handleSave}
             disabled={!selectedId}
             className="bg-slate-900 text-white hover:bg-slate-800 disabled:opacity-50"
           >
@@ -140,8 +140,8 @@ export function InfluencerLibrary({ onNavigate, data }: InfluencerLibraryProps) 
       <div className="max-w-7xl mx-auto w-full p-6 lg:p-8 flex-1">
         <div className="relative mb-8 max-w-md mx-auto">
           <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400" />
-          <Input 
-            placeholder="Search by name, role, or skill..." 
+          <Input
+            placeholder="Search by name, role, or skill..."
             value={search}
             onChange={(e) => setSearch(e.target.value)}
             className="pl-9 bg-white border-slate-200"
@@ -152,14 +152,13 @@ export function InfluencerLibrary({ onNavigate, data }: InfluencerLibraryProps) 
           {filteredInfluencers.map((inf) => {
             const isSelected = selectedId === inf.id;
             return (
-              <div 
+              <div
                 key={inf.id}
                 onClick={() => setSelectedId(inf.id)}
-                className={`group cursor-pointer bg-white rounded-2xl border transition-all duration-200 overflow-hidden relative ${
-                  isSelected 
-                    ? 'border-primary ring-2 ring-primary/20 shadow-lg' 
+                className={`group cursor-pointer bg-white rounded-2xl border transition-all duration-200 overflow-hidden relative ${isSelected
+                    ? 'border-primary ring-2 ring-primary/20 shadow-lg'
                     : 'border-slate-200 hover:border-slate-300 hover:shadow-md'
-                }`}
+                  }`}
               >
                 {isSelected && (
                   <div className="absolute top-3 right-3 z-10 w-6 h-6 bg-primary text-white rounded-full flex items-center justify-center shadow-sm">
@@ -167,9 +166,9 @@ export function InfluencerLibrary({ onNavigate, data }: InfluencerLibraryProps) 
                   </div>
                 )}
                 <div className="aspect-[4/3] overflow-hidden bg-slate-100">
-                  <ImageWithFallback 
-                    src={inf.image} 
-                    alt={inf.name} 
+                  <ImageWithFallback
+                    src={inf.image}
+                    alt={inf.name}
                     className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
                   />
                 </div>

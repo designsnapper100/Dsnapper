@@ -2,13 +2,13 @@ import { useState, useCallback, useRef, useEffect } from 'react';
 import { Button } from './ui/button';
 import { Card } from './ui/card';
 import { Progress } from './ui/progress';
-import { 
-  Plus, 
-  ArrowLeft, 
-  FileImage, 
-  Loader2, 
-  AlertCircle, 
-  Sparkles, 
+import {
+  Plus,
+  ArrowLeft,
+  FileImage,
+  Loader2,
+  AlertCircle,
+  Sparkles,
   X,
   Zap,
   Layout,
@@ -94,7 +94,7 @@ function DraggableImage({ id, img, index, moveImage, removeImage }: DraggableIma
   drag(drop(ref));
 
   return (
-    <div 
+    <div
       ref={ref}
       style={{ opacity: isDragging ? 0.4 : 1 }}
       className="group relative flex items-center gap-4 p-3 rounded-2xl border border-slate-200 bg-slate-50 hover:bg-white hover:shadow-md transition-all cursor-move"
@@ -105,11 +105,11 @@ function DraggableImage({ id, img, index, moveImage, removeImage }: DraggableIma
           {index + 1}
         </div>
       </div>
-      
+
       <div className="w-20 h-14 rounded-lg overflow-hidden border border-slate-200 bg-white relative">
         <ImageWithFallback src={img} alt={`Screen ${index + 1}`} className="w-full h-full object-cover" />
       </div>
-      
+
       <div className="flex-1">
         <p className="text-sm font-bold text-slate-700">Screen {index + 1}</p>
         <p className="text-xs text-slate-400 font-medium">Drag to reorder</p>
@@ -160,7 +160,7 @@ export function UploadPage({ onNavigate, data }: UploadPageProps) {
   const [error, setError] = useState<string | null>(null);
   const [analysisMode, setAnalysisMode] = useState<'technical-only' | 'with-influencer'>(data?.mode || 'technical-only');
   const [selectedPersona, setSelectedPersona] = useState<string>(data?.selectedPersona || 'chris-do');
-  
+
   const [selectedCriteria, setSelectedCriteria] = useState<{
     visual: string[];
     business: string[];
@@ -170,7 +170,7 @@ export function UploadPage({ onNavigate, data }: UploadPageProps) {
     business: ['Conversion', 'Clarity', 'Trust', 'Efficiency', 'Differentiation'],
     heuristic: ['Visibility', 'Prevention', 'Control', 'Recognition', 'Feedback']
   });
-  
+
   const fileInputRef = useRef<HTMLInputElement>(null);
 
   const toggleCriterion = (category: 'visual' | 'business' | 'heuristic', criterion: string) => {
@@ -185,10 +185,10 @@ export function UploadPage({ onNavigate, data }: UploadPageProps) {
 
   const processFiles = useCallback((files: File[]) => {
     const validFiles = files.filter(file => file.type.startsWith('image/'));
-    
+
     if (validFiles.length > 0) {
       setIsImageLoading(true);
-      
+
       const filePromises = validFiles.map(file => {
         return new Promise<string>((resolve) => {
           const reader = new FileReader();
@@ -209,7 +209,7 @@ export function UploadPage({ onNavigate, data }: UploadPageProps) {
   const handlePaste = useCallback((e: ClipboardEvent) => {
     const items = e.clipboardData?.items;
     const files = e.clipboardData?.files;
-    
+
     if (files && files.length > 0) {
       processFiles(Array.from(files));
       return;
@@ -254,7 +254,7 @@ export function UploadPage({ onNavigate, data }: UploadPageProps) {
     const checkPluginUpload = async () => {
       const urlParams = new URLSearchParams(window.location.search);
       const uploadId = urlParams.get('uploadId');
-      
+
       if (uploadId) {
         setIsImageLoading(true);
         try {
@@ -272,7 +272,7 @@ export function UploadPage({ onNavigate, data }: UploadPageProps) {
             if (data.image) {
               setUploadedImages(prev => [...prev, data.image]);
               toast.success("Design imported from Figma plugin");
-              
+
               // Clean URL
               const newUrl = window.location.pathname;
               window.history.replaceState({}, '', newUrl);
@@ -333,7 +333,7 @@ export function UploadPage({ onNavigate, data }: UploadPageProps) {
 
   const stitchImages = async (images: string[]): Promise<{ dataUrl: string; heights: number[]; widths: number[]; width: number }> => {
     if (images.length === 0) return { dataUrl: '', heights: [], widths: [], width: 0 };
-    
+
     // Load all images
     const imageObjects = await Promise.all(images.map(src => {
       return new Promise<HTMLImageElement>((resolve) => {
@@ -354,7 +354,7 @@ export function UploadPage({ onNavigate, data }: UploadPageProps) {
     canvas.width = maxWidth;
     canvas.height = totalHeight;
     const ctx = canvas.getContext('2d');
-    
+
     if (!ctx) return { dataUrl: images[0], heights, widths, width: maxWidth };
 
     // Fill white background
@@ -369,11 +369,11 @@ export function UploadPage({ onNavigate, data }: UploadPageProps) {
       currentY += img.height;
     });
 
-    return { 
-      dataUrl: canvas.toDataURL('image/jpeg', 0.85), 
-      heights, 
+    return {
+      dataUrl: canvas.toDataURL('image/jpeg', 0.85),
+      heights,
       widths,
-      width: maxWidth 
+      width: maxWidth
     };
   };
 
@@ -384,19 +384,19 @@ export function UploadPage({ onNavigate, data }: UploadPageProps) {
         const canvas = document.createElement('canvas');
         let width = img.width;
         let height = img.height;
-        
+
         // Scale by width
         if (width > maxWidth) {
           height = Math.round((height * maxWidth) / width);
           width = maxWidth;
         }
-        
+
         // Scale by height (important for long stitched flows)
         if (height > maxHeight) {
           width = Math.round((width * maxHeight) / height);
           height = maxHeight;
         }
-        
+
         canvas.width = width;
         canvas.height = height;
         const ctx = canvas.getContext('2d');
@@ -418,7 +418,7 @@ export function UploadPage({ onNavigate, data }: UploadPageProps) {
     setIsAnalyzing(true);
     setProgress(0);
     setError(null);
-    
+
     const progressInterval = setInterval(() => {
       setProgress(prev => {
         if (prev >= 95) return 95;
@@ -430,12 +430,12 @@ export function UploadPage({ onNavigate, data }: UploadPageProps) {
     try {
       // 1. Stitch images
       const { dataUrl: stitchedImage, heights, widths, width: stitchedWidth } = await stitchImages(uploadedImages);
-      
+
       // 2. Downsample for AI processing
       const processedImage = await downsampleImage(stitchedImage, 1200, 7500);
-      
+
       const result = await analyzeScreenshotWithAI(
-        processedImage, 
+        processedImage,
         analysisContext,
         {
           mode: analysisMode,
@@ -443,14 +443,14 @@ export function UploadPage({ onNavigate, data }: UploadPageProps) {
           testCriteria: selectedCriteria
         }
       );
-      
+
       clearInterval(progressInterval);
       setProgress(100);
-      
+
       const analysisData = {
-        screenshot: stitchedImage, 
-        images: uploadedImages,    
-        imageHeights: heights,      
+        screenshot: stitchedImage,
+        images: uploadedImages,
+        imageHeights: heights,
         imageWidths: widths,
         stitchedWidth: stitchedWidth,
         annotations: result.annotations,
@@ -480,9 +480,9 @@ export function UploadPage({ onNavigate, data }: UploadPageProps) {
   };
 
   const isCriteriaValid = () => {
-    return selectedCriteria.visual.length > 0 || 
-           selectedCriteria.business.length > 0 || 
-           selectedCriteria.heuristic.length > 0;
+    return selectedCriteria.visual.length > 0 ||
+      selectedCriteria.business.length > 0 ||
+      selectedCriteria.heuristic.length > 0;
   };
 
   return (
@@ -490,8 +490,8 @@ export function UploadPage({ onNavigate, data }: UploadPageProps) {
       <div className="min-h-screen bg-[#FDFDFD] selection:bg-primary/10">
         <nav className="border-b border-slate-100 bg-white/80 backdrop-blur-xl sticky top-0 z-50">
           <div className="max-w-6xl mx-auto px-6 py-4 flex justify-between items-center">
-            <Button 
-              variant="ghost" 
+            <Button
+              variant="ghost"
               onClick={() => {
                 if (currentStep === 'criteria') setCurrentStep('upload');
                 else onNavigate('landing');
@@ -524,30 +524,29 @@ export function UploadPage({ onNavigate, data }: UploadPageProps) {
                     </p>
                   </div>
 
-                  <div 
-                    className={`w-full max-w-2xl bg-white border-2 rounded-[32px] shadow-[0_32px_64px_-16px_rgba(0,0,0,0.1)] transition-all duration-300 p-8 flex flex-col gap-8 ${
-                      isDragOver ? 'border-primary border-dashed bg-primary/[0.02]' : 'border-slate-100'
-                    }`}
+                  <div
+                    className={`w-full max-w-2xl bg-white border-2 rounded-[32px] shadow-[0_32px_64px_-16px_rgba(0,0,0,0.1)] transition-all duration-300 p-8 flex flex-col gap-8 ${isDragOver ? 'border-primary border-dashed bg-primary/[0.02]' : 'border-slate-100'
+                      }`}
                     onDragOver={handleDragOver}
                     onDragLeave={handleDragLeave}
                     onDrop={handleDrop}
                   >
                     <div className="space-y-4">
                       <div className="flex items-center justify-between">
-                         <h3 className="text-sm font-black uppercase tracking-widest text-slate-900">1. Upload Design Flow</h3>
-                         {uploadedImages.length > 0 && (
-                           <span className="text-xs font-bold text-green-600 flex items-center gap-1">
-                             <CheckCircle2 className="w-3.5 h-3.5" /> 
-                             {uploadedImages.length} Screen{uploadedImages.length !== 1 ? 's' : ''}
-                           </span>
-                         )}
+                        <h3 className="text-sm font-black uppercase tracking-widest text-slate-900">1. Upload Design Flow</h3>
+                        {uploadedImages.length > 0 && (
+                          <span className="text-xs font-bold text-green-600 flex items-center gap-1">
+                            <CheckCircle2 className="w-3.5 h-3.5" />
+                            {uploadedImages.length} Screen{uploadedImages.length !== 1 ? 's' : ''}
+                          </span>
+                        )}
                       </div>
-                      
+
                       {uploadedImages.length > 0 ? (
                         <div className="space-y-3">
                           <div className="grid grid-cols-1 gap-3 max-h-[400px] overflow-y-auto pr-2 custom-scrollbar">
                             {uploadedImages.map((img, index) => (
-                              <DraggableImage 
+                              <DraggableImage
                                 key={`img-${index}`}
                                 id={`img-${index}`}
                                 img={img}
@@ -558,8 +557,8 @@ export function UploadPage({ onNavigate, data }: UploadPageProps) {
                             ))}
                           </div>
 
-                          <Button 
-                            variant="outline" 
+                          <Button
+                            variant="outline"
                             onClick={() => fileInputRef.current?.click()}
                             className="w-full h-12 border-dashed border-2 border-slate-200 text-slate-500 hover:text-slate-700 hover:border-slate-300 gap-2"
                           >
@@ -568,7 +567,7 @@ export function UploadPage({ onNavigate, data }: UploadPageProps) {
                           </Button>
                         </div>
                       ) : (
-                        <div 
+                        <div
                           onClick={() => fileInputRef.current?.click()}
                           className="border-2 border-dashed border-slate-200 rounded-2xl p-10 flex flex-col items-center justify-center gap-4 hover:border-slate-400 hover:bg-slate-50 transition-all cursor-pointer group"
                         >
@@ -579,13 +578,13 @@ export function UploadPage({ onNavigate, data }: UploadPageProps) {
                           <p className="text-xs text-slate-400">Supports single images or full user flows</p>
                         </div>
                       )}
-                      <input 
-                        type="file" 
-                        ref={fileInputRef} 
-                        className="hidden" 
-                        accept="image/*" 
-                        multiple 
-                        onChange={handleFileSelect} 
+                      <input
+                        type="file"
+                        ref={fileInputRef}
+                        className="hidden"
+                        accept="image/*"
+                        multiple
+                        onChange={handleFileSelect}
                       />
                     </div>
 
@@ -594,11 +593,10 @@ export function UploadPage({ onNavigate, data }: UploadPageProps) {
                     <div className="space-y-6">
                       <h3 className="text-sm font-black uppercase tracking-widest text-slate-900">2. Select Analysis Mode</h3>
                       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                        <div 
+                        <div
                           onClick={() => setAnalysisMode('technical-only')}
-                          className={`p-4 rounded-xl border-2 cursor-pointer transition-all ${
-                            analysisMode === 'technical-only' ? 'border-slate-900 bg-slate-50' : 'border-slate-100 hover:border-slate-300'
-                          }`}
+                          className={`p-4 rounded-xl border-2 cursor-pointer transition-all ${analysisMode === 'technical-only' ? 'border-slate-900 bg-slate-50' : 'border-slate-100 hover:border-slate-300'
+                            }`}
                         >
                           <div className="flex items-center gap-3 mb-2">
                             <div className="w-8 h-8 rounded-lg bg-slate-200 flex items-center justify-center">
@@ -611,11 +609,10 @@ export function UploadPage({ onNavigate, data }: UploadPageProps) {
                           </p>
                         </div>
 
-                        <div 
+                        <div
                           onClick={() => setAnalysisMode('with-influencer')}
-                          className={`p-4 rounded-xl border-2 cursor-pointer transition-all relative overflow-hidden ${
-                            analysisMode === 'with-influencer' ? 'border-primary bg-primary/5' : 'border-slate-100 hover:border-slate-300'
-                          }`}
+                          className={`p-4 rounded-xl border-2 cursor-pointer transition-all relative overflow-hidden ${analysisMode === 'with-influencer' ? 'border-primary bg-primary/5' : 'border-slate-100 hover:border-slate-300'
+                            }`}
                         >
                           <div className="flex items-center gap-3 mb-2">
                             <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-primary to-violet-600 flex items-center justify-center text-white">
@@ -645,22 +642,22 @@ export function UploadPage({ onNavigate, data }: UploadPageProps) {
                             { id: 'ansh-mehra', name: 'Ansh Mehra', role: 'Visual Storytelling', image: PERSONA_IMAGES['ansh-mehra'] }
                           ].map((persona) => (
                             <div key={persona.id} onClick={() => setSelectedPersona(persona.id)} className={`relative p-3 rounded-xl border-2 cursor-pointer transition-all flex flex-col gap-3 ${selectedPersona === persona.id ? 'border-primary bg-primary/5 shadow-md scale-[1.02]' : 'border-slate-100 hover:border-slate-200 bg-white'}`}>
-                               <div className="w-full aspect-[4/3] rounded-lg overflow-hidden bg-slate-100 relative">
-                                  <ImageWithFallback src={persona.image} alt={persona.name} className="w-full h-full object-cover" />
-                                  <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
-                                  <span className="absolute bottom-2 left-2 text-white font-bold text-sm">{persona.name}</span>
-                               </div>
-                               <div className="flex items-center justify-between">
-                                  <span className="text-[10px] font-bold text-slate-500 uppercase tracking-tight">{persona.role}</span>
-                                  {selectedPersona === persona.id && <CheckCircle2 className="w-4 h-4 text-primary" />}
-                               </div>
+                              <div className="w-full aspect-[4/3] rounded-lg overflow-hidden bg-slate-100 relative">
+                                <ImageWithFallback src={persona.image} alt={persona.name} className="w-full h-full object-cover" />
+                                <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
+                                <span className="absolute bottom-2 left-2 text-white font-bold text-sm">{persona.name}</span>
+                              </div>
+                              <div className="flex items-center justify-between">
+                                <span className="text-[10px] font-bold text-slate-500 uppercase tracking-tight">{persona.role}</span>
+                                {selectedPersona === persona.id && <CheckCircle2 className="w-4 h-4 text-primary" />}
+                              </div>
                             </div>
                           ))}
                         </div>
                       </div>
                     )}
 
-                    <Button 
+                    <Button
                       disabled={uploadedImages.length === 0 || isImageLoading}
                       onClick={handleContinue}
                       className={`h-14 w-full rounded-2xl font-black uppercase tracking-widest text-sm transition-all shadow-xl active:scale-95 flex items-center justify-center gap-3 ${uploadedImages.length > 0 ? 'bg-slate-900 text-white hover:bg-slate-800' : 'bg-slate-100 text-slate-300'}`}
@@ -693,7 +690,7 @@ export function UploadPage({ onNavigate, data }: UploadPageProps) {
                               {section.title}
                             </h3>
                           </div>
-                          
+
                           <div className="flex flex-wrap gap-2">
                             {section.items.map((item) => {
                               const isSelected = selectedCriteria[key as keyof typeof selectedCriteria].includes(item);
@@ -701,11 +698,10 @@ export function UploadPage({ onNavigate, data }: UploadPageProps) {
                                 <button
                                   key={item}
                                   onClick={() => toggleCriterion(key as any, item)}
-                                  className={`relative px-[12px] py-[6px] rounded-[16px] text-[14px] font-medium transition-all flex items-center gap-1.5 bg-white ${
-                                    isSelected 
-                                      ? 'text-blue-600 border-[1.5px] border-blue-600 shadow-[0px_1px_2px_0px_rgba(0,102,255,0.05)]' 
+                                  className={`relative px-[12px] py-[6px] rounded-[16px] text-[14px] font-medium transition-all flex items-center gap-1.5 bg-white ${isSelected
+                                      ? 'text-blue-600 border-[1.5px] border-blue-600 shadow-[0px_1px_2px_0px_rgba(0,102,255,0.05)]'
                                       : 'text-[#535862] border border-[#d5d7da] shadow-[inset_0px_0px_0px_1px_rgba(10,13,18,0.18),inset_0px_-2px_0px_0px_rgba(10,13,18,0.05),0px_1px_2px_0px_rgba(10,13,18,0.05)] hover:border-slate-300'
-                                  }`}
+                                    }`}
                                 >
                                   {isSelected && <Check className="w-3.5 h-3.5 stroke-[2.5px]" />}
                                   {item}
@@ -723,7 +719,7 @@ export function UploadPage({ onNavigate, data }: UploadPageProps) {
                       <h3 className="text-sm font-black uppercase tracking-widest text-slate-900">
                         Additional Context (Optional)
                       </h3>
-                      <textarea 
+                      <textarea
                         className="w-full h-24 p-4 text-sm font-medium text-slate-900 placeholder:text-slate-400 bg-slate-50 border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all resize-none"
                         placeholder="Any specific goals or concerns?"
                         value={analysisContext}
@@ -732,14 +728,14 @@ export function UploadPage({ onNavigate, data }: UploadPageProps) {
                     </div>
 
                     <div className="flex gap-4">
-                      <Button 
+                      <Button
                         variant="outline"
                         onClick={() => setCurrentStep('upload')}
                         className="h-14 flex-1 rounded-2xl font-black uppercase tracking-widest text-sm border-2"
                       >
                         Back
                       </Button>
-                      <Button 
+                      <Button
                         disabled={!isCriteriaValid()}
                         onClick={startAnalysis}
                         className={`h-14 flex-[2] rounded-2xl font-black uppercase tracking-widest text-sm transition-all shadow-xl active:scale-95 flex items-center justify-center gap-3 ${isCriteriaValid() ? 'bg-slate-900 text-white hover:bg-slate-800' : 'bg-slate-100 text-slate-300'}`}
@@ -777,8 +773,8 @@ export function UploadPage({ onNavigate, data }: UploadPageProps) {
                 </div>
                 <div className="space-y-4">
                   <div className="flex justify-between items-end mb-1">
-                     <span className="text-[10px] font-black uppercase tracking-[0.2em] text-slate-400">Processing</span>
-                     <span className="text-sm font-black text-slate-900">{Math.round(progress)}%</span>
+                    <span className="text-[10px] font-black uppercase tracking-[0.2em] text-slate-400">Processing</span>
+                    <span className="text-sm font-black text-slate-900">{Math.round(progress)}%</span>
                   </div>
                   <Progress value={progress} className="h-3 bg-slate-100 rounded-full overflow-hidden">
                     <div className="h-full bg-primary transition-all duration-300" style={{ width: `${progress}%` }} />

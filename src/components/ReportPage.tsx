@@ -3,9 +3,9 @@ import { Button } from './ui/button';
 import { Card } from './ui/card';
 import { Badge } from './ui/badge';
 import { Separator } from './ui/separator';
-import { 
-  ArrowLeft, 
-  Download, 
+import {
+  ArrowLeft,
+  Download,
   Calendar,
   Info,
   Accessibility,
@@ -140,8 +140,8 @@ export function ReportPage({ onNavigate, data }: ReportPageProps) {
       {/* Navigation */}
       <nav className="border-b border-slate-200 bg-white print:hidden sticky top-0 z-50 shadow-sm">
         <div className="max-w-6xl mx-auto px-6 py-3 flex justify-between items-center">
-          <Button 
-            variant="ghost" 
+          <Button
+            variant="ghost"
             onClick={() => onNavigate('dashboard', data)}
             className="flex items-center gap-2 text-slate-600"
           >
@@ -162,10 +162,10 @@ export function ReportPage({ onNavigate, data }: ReportPageProps) {
       </nav>
 
       <div className="max-w-4xl mx-auto px-6 py-12 space-y-12 print:space-y-0 print:p-0 print:max-w-none print:bg-white">
-        
+
         {/* PAGE 1: VISUAL DIAGNOSTIC */}
         <section className="bg-white p-10 rounded-3xl shadow-2xl border border-slate-200 print:shadow-none print:border-none print:rounded-none print:p-12 print:h-[297mm] flex flex-col page-break">
-          
+
           {/* Header Section */}
           <div className="flex justify-between items-center mb-10 border-b border-slate-100 pb-8">
             <div className="flex items-center gap-4">
@@ -193,15 +193,15 @@ export function ReportPage({ onNavigate, data }: ReportPageProps) {
           <div className="flex-1 space-y-8">
             <div className="relative rounded-2xl overflow-hidden border border-slate-200 shadow-inner bg-slate-950 flex justify-center items-center" ref={containerRef}>
               <div className="relative inline-block w-full">
-                <ImageWithFallback 
+                <ImageWithFallback
                   src={data.screenshot}
                   alt="Audit Preview"
                   className="w-full h-auto opacity-70 grayscale-[20%] blur-[0.5px] block"
                 />
-                
+
                 {/* Spectral Heatmap Overlay */}
                 {dimensions.width > 0 && (
-                  <HeatmapCanvas 
+                  <HeatmapCanvas
                     annotations={annotations}
                     width={dimensions.width}
                     height={dimensions.height}
@@ -214,9 +214,8 @@ export function ReportPage({ onNavigate, data }: ReportPageProps) {
                   return (
                     <div
                       key={ann.id}
-                      className={`absolute w-7 h-7 rounded-full border-2 border-white shadow-2xl flex items-center justify-center transition-all ${
-                        ann.severity === 'critical' ? 'bg-red-500' : 'bg-blue-500'
-                      }`}
+                      className={`absolute w-7 h-7 rounded-full border-2 border-white shadow-2xl flex items-center justify-center transition-all ${ann.severity === 'critical' ? 'bg-red-500' : 'bg-blue-500'
+                        }`}
                       style={{ left: `${ann.x}%`, top: `${ann.y}%`, transform: 'translate(-50%, -50%)' }}
                     >
                       <span className="text-[11px] text-white font-black">{ann.id}</span>
@@ -224,7 +223,7 @@ export function ReportPage({ onNavigate, data }: ReportPageProps) {
                   );
                 })}
               </div>
-              
+
               <div className="absolute top-4 right-4 px-3 py-1.5 bg-black/60 backdrop-blur-md rounded-full border border-white/10 shadow-lg">
                 <span className="text-[9px] text-white/90 font-black uppercase tracking-[0.2em] flex items-center gap-2">
                   <div className="w-1.5 h-1.5 bg-red-500 rounded-full animate-pulse" />
@@ -263,71 +262,71 @@ export function ReportPage({ onNavigate, data }: ReportPageProps) {
         {/* PAGE 2: INFLUENCER REVIEW (CONDITIONAL) */}
         {data.influencerReview && (
           <section className="bg-white p-10 rounded-3xl shadow-2xl border border-slate-200 print:shadow-none print:border-none print:rounded-none print:p-12 print:h-[297mm] flex flex-col page-break">
-             <div className="flex items-center justify-between mb-10 border-b border-slate-100 pb-8">
-               <div className="flex items-center gap-3">
-                 <div className="w-10 h-10 rounded-full bg-gradient-to-br from-primary to-violet-600 flex items-center justify-center text-white shadow-md">
-                   <Crown className="w-5 h-5" />
-                 </div>
-                 <h2 className="text-xl font-black uppercase tracking-tight text-slate-900">Strategic Expert Review</h2>
-               </div>
-               <Badge variant="outline" className="px-3 py-1 font-black text-[10px] uppercase tracking-widest border-slate-200 text-slate-500">
-                 By {data.influencerReview.persona}
-               </Badge>
-             </div>
+            <div className="flex items-center justify-between mb-10 border-b border-slate-100 pb-8">
+              <div className="flex items-center gap-3">
+                <div className="w-10 h-10 rounded-full bg-gradient-to-br from-primary to-violet-600 flex items-center justify-center text-white shadow-md">
+                  <Crown className="w-5 h-5" />
+                </div>
+                <h2 className="text-xl font-black uppercase tracking-tight text-slate-900">Strategic Expert Review</h2>
+              </div>
+              <Badge variant="outline" className="px-3 py-1 font-black text-[10px] uppercase tracking-widest border-slate-200 text-slate-500">
+                By {data.influencerReview.persona}
+              </Badge>
+            </div>
 
-             <div className="flex-1 space-y-8 bg-slate-50/50 p-8 rounded-2xl border border-slate-100">
-                <div className="bg-white p-6 rounded-2xl shadow-sm border border-slate-100 relative">
-                   <Quote className="w-10 h-10 text-slate-100 absolute top-4 left-4 -z-0" />
-                   <p className="text-lg font-medium text-slate-700 italic leading-relaxed relative z-10 text-center px-8">
-                      "{data.influencerReview.overallImpression}"
-                   </p>
+            <div className="flex-1 space-y-8 bg-slate-50/50 p-8 rounded-2xl border border-slate-100">
+              <div className="bg-white p-6 rounded-2xl shadow-sm border border-slate-100 relative">
+                <Quote className="w-10 h-10 text-slate-100 absolute top-4 left-4 -z-0" />
+                <p className="text-lg font-medium text-slate-700 italic leading-relaxed relative z-10 text-center px-8">
+                  "{data.influencerReview.overallImpression}"
+                </p>
+              </div>
+
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+                <div className="space-y-4">
+                  <h3 className="text-xs font-black uppercase tracking-widest text-slate-400 border-b border-slate-200 pb-2">Strategic Feedback</h3>
+                  {data.influencerReview.strategicFeedback.map((point, i) => (
+                    <div key={i} className="flex gap-3">
+                      <div className="w-6 h-6 rounded-full bg-primary/10 flex items-center justify-center shrink-0 mt-0.5">
+                        <span className="text-[10px] font-black text-primary">{i + 1}</span>
+                      </div>
+                      <p className="text-sm text-slate-700">{point}</p>
+                    </div>
+                  ))}
                 </div>
 
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-                   <div className="space-y-4">
-                      <h3 className="text-xs font-black uppercase tracking-widest text-slate-400 border-b border-slate-200 pb-2">Strategic Feedback</h3>
-                      {data.influencerReview.strategicFeedback.map((point, i) => (
-                        <div key={i} className="flex gap-3">
-                           <div className="w-6 h-6 rounded-full bg-primary/10 flex items-center justify-center shrink-0 mt-0.5">
-                              <span className="text-[10px] font-black text-primary">{i + 1}</span>
-                           </div>
-                           <p className="text-sm text-slate-700">{point}</p>
-                        </div>
-                      ))}
-                   </div>
-
-                   <div className="space-y-4">
-                      <h3 className="text-xs font-black uppercase tracking-widest text-slate-400 border-b border-slate-200 pb-2">Actionable Steps</h3>
-                      {data.influencerReview.actionableTips.map((tip, i) => (
-                         <div key={i} className="flex items-center gap-3 p-3 bg-white border border-slate-200 rounded-lg shadow-sm">
-                            <Check className="w-4 h-4 text-green-600 shrink-0" />
-                            <p className="text-xs font-bold text-slate-800">{tip}</p>
-                         </div>
-                      ))}
-                   </div>
+                <div className="space-y-4">
+                  <h3 className="text-xs font-black uppercase tracking-widest text-slate-400 border-b border-slate-200 pb-2">Actionable Steps</h3>
+                  {data.influencerReview.actionableTips.map((tip, i) => (
+                    <div key={i} className="flex items-center gap-3 p-3 bg-white border border-slate-200 rounded-lg shadow-sm">
+                      <Check className="w-4 h-4 text-green-600 shrink-0" />
+                      <p className="text-xs font-bold text-slate-800">{tip}</p>
+                    </div>
+                  ))}
                 </div>
+              </div>
 
-                <div className="p-6 bg-slate-900 text-white rounded-xl shadow-lg mt-4">
-                   <div className="flex items-center gap-2 mb-3">
-                      <Lightbulb className="w-5 h-5 text-yellow-400" />
-                      <span className="text-[10px] font-bold uppercase tracking-widest text-slate-400">Core Philosophical Principle</span>
-                   </div>
-                   <p className="text-base font-medium leading-relaxed border-l-2 border-yellow-400 pl-4">
-                      {data.influencerReview.philosophicalAdvice}
-                   </p>
+              <div className="p-6 bg-slate-900 text-white rounded-xl shadow-lg mt-4">
+                <div className="flex items-center gap-2 mb-3">
+                  <Lightbulb className="w-5 h-5 text-yellow-400" />
+                  <span className="text-[10px] font-bold uppercase tracking-widest text-slate-400">Core Philosophical Principle</span>
                 </div>
-             </div>
+                <p className="text-base font-medium leading-relaxed border-l-2 border-yellow-400 pl-4">
+                  {data.influencerReview.philosophicalAdvice}
+                </p>
+              </div>
+            </div>
 
-             <div className="mt-auto pt-8 border-t border-slate-100 flex justify-between items-center text-[9px] text-slate-400 font-bold uppercase tracking-[0.2em]">
-               <div>Design Snapper Pro • Ver 2.5.0 • Page {data.influencerReview ? '02' : '02'}/03</div>
-               <div className="text-slate-900 font-black">Exclusive Content</div>
-             </div>
+            <div className="mt-auto pt-8 border-t border-slate-100 flex justify-between items-center text-[9px] text-slate-400 font-bold uppercase tracking-[0.2em]">
+              <div>Design Snapper Pro • Ver 2.5.0 • Page {data.influencerReview ? '02' : '02'}/03</div>
+              <div className="text-slate-900 font-black">Exclusive Content</div>
+            </div>
           </section>
         )}
 
         {/* PAGE 3: DETAILED FINDINGS & SUGGESTIONS */}
         <section className="bg-white p-10 rounded-3xl shadow-2xl border border-slate-200 print:shadow-none print:border-none print:rounded-none print:p-12 print:h-[297mm] flex flex-col page-break">
-          
+
           <div className="flex items-center justify-between mb-10 border-b border-slate-100 pb-8">
             <div className="flex items-center gap-3">
               <div className="w-8 h-8 bg-slate-100 rounded-lg flex items-center justify-center">
@@ -345,9 +344,8 @@ export function ReportPage({ onNavigate, data }: ReportPageProps) {
               {annotations.map((ann) => {
                 return (
                   <div key={ann.id} className="p-6 bg-slate-50 border border-slate-100 rounded-2xl flex gap-6 print:bg-white print:border-slate-200 transition-all hover:bg-slate-100/50">
-                    <div className={`w-10 h-10 rounded-xl flex items-center justify-center shrink-0 shadow-sm ${
-                      ann.severity === 'critical' ? 'bg-red-500' : 'bg-blue-500'
-                    } text-white`}>
+                    <div className={`w-10 h-10 rounded-xl flex items-center justify-center shrink-0 shadow-sm ${ann.severity === 'critical' ? 'bg-red-500' : 'bg-blue-500'
+                      } text-white`}>
                       <span className="text-sm font-black">{ann.id}</span>
                     </div>
                     <div className="flex-1 min-w-0">
@@ -358,7 +356,7 @@ export function ReportPage({ onNavigate, data }: ReportPageProps) {
                           {ann.severity}
                         </Badge>
                       </div>
-                      
+
                       <div className="space-y-3 mb-4">
                         <div>
                           <p className="text-[9px] font-black uppercase tracking-widest text-slate-400 mb-1">Observation</p>
@@ -369,7 +367,7 @@ export function ReportPage({ onNavigate, data }: ReportPageProps) {
                           <p className="text-[11px] text-slate-500 font-medium italic">{ann.impact}</p>
                         </div>
                       </div>
-                      
+
                       {/* Explicit Suggestion Box */}
                       <div className="p-4 bg-white border border-slate-200 rounded-xl shadow-sm">
                         <div className="flex items-center gap-2 mb-2">
@@ -382,7 +380,7 @@ export function ReportPage({ onNavigate, data }: ReportPageProps) {
                   </div>
                 );
               })}
-              
+
               {annotations.length === 0 && (
                 <div className="py-20 text-center border-2 border-dashed border-slate-100 rounded-3xl">
                   <Info className="w-10 h-10 text-slate-300 mx-auto mb-4" />
