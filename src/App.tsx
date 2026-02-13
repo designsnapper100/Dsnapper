@@ -11,19 +11,41 @@ import { projectId, publicAnonKey } from './utils/supabase/info';
 import { Loader2 } from 'lucide-react';
 import { Toaster } from 'sonner@2.0.3';
 
-type Screen = 'landing' | 'upload' | 'dashboard' | 'report' | 'influencer-library' | 'chat';
+import { AuthPage } from './components/AuthPage';
+import { supabase } from './utils/supabase/client';
+import { Session } from '@supabase/supabase-js';
+
+type Screen = 'landing' | 'upload' | 'dashboard' | 'report' | 'influencer-library' | 'chat' | 'auth';
 
 export default function App() {
   const [currentScreen, setCurrentScreen] = useState<Screen>('landing');
   const [analysisData, setAnalysisData] = useState<any>(null);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const [session, setSession] = useState<Session | null>(null);
   const analysisDataRef = useRef<any>(null);
 
   // Keep ref in sync with state so popstate handler always has current data
   useEffect(() => {
     analysisDataRef.current = analysisData;
   }, [analysisData]);
+
+  useEffect(() => {
+    supabase.auth.getSession().then(({ data: { session } }) => {
+      setSession(session);
+    });
+
+    const {
+      data: { subscription },
+    } = supabase.auth.onAuthStateChange((_event, session) => {
+      setSession(session);
+      if (session && currentScreen === 'auth') {
+        navigateToScreen('upload');
+      }
+    });
+
+    return () => subscription.unsubscribe();
+  }, [currentScreen]);
 
   const getPageTitle = (screen: Screen) => {
     switch (screen) {
@@ -33,6 +55,7 @@ export default function App() {
       case 'report': return 'Full Audit Report - Design Snapper';
       case 'influencer-library': return 'Select Design Expert - Design Snapper';
       case 'chat': return 'Chat with Influencer - Design Snapper';
+      case 'auth': return 'Sign In - Design Snapper';
       default: return 'Design Snapper';
     }
   };
@@ -45,24 +68,32 @@ export default function App() {
       case 'report': return '/report';
       case 'influencer-library': return '/library';
       case 'chat': return '/chat';
+      case 'auth': return '/auth';
       default: return '/';
     }
   };
 
-  const navigateToScreen = useCallback((screen: Screen, data?: any) => {
+  const navigateToScreen = useCallback((screen: any, data?: any) => {
+    // Protect upload route
+    if (screen === 'upload' && !session) {
+      setCurrentScreen('auth');
+      window.history.pushState({ screen: 'auth' }, '', '/auth');
+      return;
+    }
+
     if (data) {
       setAnalysisData(data);
       analysisDataRef.current = data;
     }
-    
-    const path = getPathFromScreen(screen);
+
+    const path = getPathFromScreen(screen as Screen);
     const urlParams = new URLSearchParams(window.location.search);
     const reportId = urlParams.get('reportId');
-    
+
     // Maintain reportId in URL if we are moving between data-driven pages
     const isDataPage = screen === 'dashboard' || screen === 'report';
     const finalUrl = (isDataPage && reportId) ? `${path}?reportId=${reportId}` : path;
-    
+
     try {
       // Only store screen name in history — never store large base64 data
       // as it can exceed browser pushState size limits and throw DOMException
@@ -73,8 +104,8 @@ export default function App() {
         window.history.replaceState({ screen }, '', finalUrl);
       } catch (_) { /* ignore */ }
     }
-    setCurrentScreen(screen);
-  }, []);
+    setCurrentScreen(screen as Screen);
+  }, [session]);
 
   useEffect(() => {
     const initApp = async () => {
@@ -97,11 +128,11 @@ export default function App() {
           if (!response.ok) throw new Error('Report not found');
           const data = await response.json();
           setAnalysisData(data);
-          
+
           // Respect the current path if it's valid for data-driven screens
           let screen: Screen = 'dashboard';
           if (path === '/report') screen = 'report';
-          
+
           setCurrentScreen(screen);
           window.history.replaceState({ screen, data }, '', `${path}?reportId=${reportId}`);
         } catch (err) {
@@ -176,7 +207,7 @@ export default function App() {
           </div>
           <h2 className="text-2xl font-bold">Report Not Found</h2>
           <p className="text-muted-foreground max-w-md">{error}</p>
-          <button 
+          <button
             onClick={() => { setError(null); navigateToScreen('landing'); }}
             className="mt-4 px-6 py-2 bg-primary text-primary-foreground rounded-lg font-medium hover:opacity-90 transition-opacity"
           >
@@ -199,6 +230,8 @@ export default function App() {
         return <InfluencerLibrary onNavigate={navigateToScreen} data={analysisData} />;
       case 'chat':
         return <InfluencerChat onNavigate={navigateToScreen} initialPersonaId={analysisData?.selectedPersona} />;
+      case 'auth':
+        return <AuthPage onNavigate={navigateToScreen} />;
       default:
         return <LandingPage onNavigate={navigateToScreen} />;
     }

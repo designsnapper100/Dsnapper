@@ -7,7 +7,7 @@ import { ImageWithFallback } from './figma/ImageWithFallback';
 import saasMockup from 'figma:asset/59f7c40d3db6dd1bd00dec669d25e2bff24a123c.png';
 
 interface LandingPageProps {
-  onNavigate: (screen: 'landing' | 'upload' | 'dashboard' | 'report', data?: any) => void;
+  onNavigate: (screen: 'landing' | 'upload' | 'dashboard' | 'report' | 'auth', data?: any) => void;
 }
 
 const SAMPLE_REPORT_DATA = {
@@ -164,33 +164,33 @@ function ReportCardUI() {
         {/* Compliance Visualization */}
         <div className="flex-1 bg-slate-50/50 rounded-xl border border-slate-100 p-4 flex flex-col gap-4">
           <div className="flex justify-between items-end">
-             <div className="flex flex-col">
-                <span className="text-[10px] font-black text-slate-400 uppercase tracking-widest">Compliance</span>
-                <span className="text-2xl font-black text-slate-900">82%</span>
-             </div>
-             <div className="flex items-end gap-1 h-12">
-                {[40, 70, 45, 90, 65, 80, 50].map((h, i) => (
-                  <div key={i} className="w-2 bg-slate-200 rounded-full relative group overflow-hidden h-full">
-                    <motion.div 
-                      initial={{ height: 0 }}
-                      whileInView={{ height: `${h}%` }}
-                      transition={{ delay: i * 0.1, duration: 1 }}
-                      className={`absolute bottom-0 left-0 right-0 ${i === 3 ? 'bg-primary' : 'bg-slate-300'}`} 
-                    />
-                  </div>
-                ))}
-             </div>
+            <div className="flex flex-col">
+              <span className="text-[10px] font-black text-slate-400 uppercase tracking-widest">Compliance</span>
+              <span className="text-2xl font-black text-slate-900">82%</span>
+            </div>
+            <div className="flex items-end gap-1 h-12">
+              {[40, 70, 45, 90, 65, 80, 50].map((h, i) => (
+                <div key={i} className="w-2 bg-slate-200 rounded-full relative group overflow-hidden h-full">
+                  <motion.div
+                    initial={{ height: 0 }}
+                    whileInView={{ height: `${h}%` }}
+                    transition={{ delay: i * 0.1, duration: 1 }}
+                    className={`absolute bottom-0 left-0 right-0 ${i === 3 ? 'bg-primary' : 'bg-slate-300'}`}
+                  />
+                </div>
+              ))}
+            </div>
           </div>
-          
+
           <div className="space-y-2">
             {[
               { label: 'Color Contrast', score: 'Fail', color: 'text-red-500' },
               { label: 'Screen Reader Support', score: 'Pass', color: 'text-green-500' },
             ].map((stat, i) => (
-               <div key={i} className="flex justify-between items-center bg-white p-2 rounded-lg border border-slate-100 shadow-sm">
-                  <span className="text-[10px] font-bold text-slate-600">{stat.label}</span>
-                  <span className={`text-[10px] font-black uppercase ${stat.color}`}>{stat.score}</span>
-               </div>
+              <div key={i} className="flex justify-between items-center bg-white p-2 rounded-lg border border-slate-100 shadow-sm">
+                <span className="text-[10px] font-bold text-slate-600">{stat.label}</span>
+                <span className={`text-[10px] font-black uppercase ${stat.color}`}>{stat.score}</span>
+              </div>
             ))}
           </div>
         </div>
@@ -213,14 +213,14 @@ function AnnotationPin({ delay, x, y, label, type = 'info' }: { delay: number; x
   };
 
   return (
-    <motion.div 
+    <motion.div
       initial={{ scale: 0, opacity: 0 }}
       whileInView={{ scale: 1, opacity: 1 }}
       transition={{ delay, type: 'spring', stiffness: 200, damping: 20 }}
       style={{ left: x, top: y }}
       className="absolute z-30 pointer-events-none"
     >
-      <motion.div 
+      <motion.div
         animate={{ y: [0, -8, 0] }}
         transition={{ duration: 3, repeat: Infinity, ease: "easeInOut" }}
         className="flex flex-col items-center"
@@ -240,15 +240,15 @@ function ProductShowcase() {
   return (
     <section className="relative z-10 max-w-7xl mx-auto px-6 pb-32">
       <div className="relative rounded-[64px] overflow-hidden aspect-[16/10] bg-[#F1F4F9] shadow-[0_40px_100px_-20px_rgba(0,0,0,0.1)] border border-slate-200 p-8 md:p-12 lg:p-20 group">
-        
+
         {/* Decorative background elements */}
         <div className="absolute top-0 right-0 w-full h-full opacity-40">
-           <div className="absolute top-[-10%] right-[-10%] w-[50%] h-[50%] bg-blue-100 rounded-full blur-[120px]" />
-           <div className="absolute bottom-[-10%] left-[-10%] w-[40%] h-[40%] bg-orange-50 rounded-full blur-[100px]" />
+          <div className="absolute top-[-10%] right-[-10%] w-[50%] h-[50%] bg-blue-100 rounded-full blur-[120px]" />
+          <div className="absolute bottom-[-10%] left-[-10%] w-[40%] h-[40%] bg-orange-50 rounded-full blur-[100px]" />
         </div>
 
         {/* The Window - Recreating the SaaS UI as a high-fidelity mockup */}
-        <motion.div 
+        <motion.div
           initial={{ y: 80, opacity: 0 }}
           whileInView={{ y: 0, opacity: 1 }}
           transition={{ duration: 1, ease: "easeOut" }}
@@ -256,81 +256,81 @@ function ProductShowcase() {
         >
           {/* Sidebar Mockup */}
           <div className="w-20 md:w-24 border-r border-slate-100 bg-slate-50/50 flex flex-col items-center py-8 gap-8 shrink-0">
-             <div className="w-10 h-10 bg-primary rounded-xl flex items-center justify-center shadow-lg shadow-primary/20">
-                <Target className="w-5 h-5 text-white" />
-             </div>
-             <div className="flex flex-col gap-6">
-                {[LayoutPanelTop, BarChart3, Settings, ShieldCheck].map((Icon, i) => (
-                   <div key={i} className={`p-3 rounded-xl transition-colors cursor-pointer ${i === 0 ? 'bg-white shadow-sm text-primary' : 'text-slate-400 hover:text-slate-600'}`}>
-                      <Icon className="w-5 h-5" />
-                   </div>
-                ))}
-             </div>
+            <div className="w-10 h-10 bg-primary rounded-xl flex items-center justify-center shadow-lg shadow-primary/20">
+              <Target className="w-5 h-5 text-white" />
+            </div>
+            <div className="flex flex-col gap-6">
+              {[LayoutPanelTop, BarChart3, Settings, ShieldCheck].map((Icon, i) => (
+                <div key={i} className={`p-3 rounded-xl transition-colors cursor-pointer ${i === 0 ? 'bg-white shadow-sm text-primary' : 'text-slate-400 hover:text-slate-600'}`}>
+                  <Icon className="w-5 h-5" />
+                </div>
+              ))}
+            </div>
           </div>
 
           {/* Main Content Area */}
           <div className="flex-1 flex flex-col overflow-hidden relative">
             {/* Toolbar */}
             <div className="h-16 border-b border-slate-100 flex items-center justify-between px-8 bg-white/80 backdrop-blur-sm z-20">
-               <div className="flex items-center gap-4">
-                  <span className="text-sm font-bold text-slate-800">Analysis: Meeting_241025.mp4</span>
-                  <div className="px-2 py-0.5 bg-sky-50 text-primary text-[10px] font-black uppercase rounded border border-primary/10 tracking-widest">Processing</div>
-               </div>
-               <div className="flex items-center gap-3">
-                  <div className="flex -space-x-2">
-                     {[1, 2, 3].map(i => (
-                        <div key={i} className="w-8 h-8 rounded-full border-2 border-white bg-slate-100 overflow-hidden">
-                           <ImageWithFallback src={`https://images.unsplash.com/photo-${1500000000000 + i}?q=80&w=100&auto=format&fit=crop`} alt="User" className="w-full h-full object-cover" />
-                        </div>
-                     ))}
-                  </div>
-                  <Button size="sm" className="rounded-full h-9 px-5 text-xs font-bold bg-slate-900 text-white hover:bg-slate-800">Generate Report</Button>
-               </div>
+              <div className="flex items-center gap-4">
+                <span className="text-sm font-bold text-slate-800">Analysis: Meeting_241025.mp4</span>
+                <div className="px-2 py-0.5 bg-sky-50 text-primary text-[10px] font-black uppercase rounded border border-primary/10 tracking-widest">Processing</div>
+              </div>
+              <div className="flex items-center gap-3">
+                <div className="flex -space-x-2">
+                  {[1, 2, 3].map(i => (
+                    <div key={i} className="w-8 h-8 rounded-full border-2 border-white bg-slate-100 overflow-hidden">
+                      <ImageWithFallback src={`https://images.unsplash.com/photo-${1500000000000 + i}?q=80&w=100&auto=format&fit=crop`} alt="User" className="w-full h-full object-cover" />
+                    </div>
+                  ))}
+                </div>
+                <Button size="sm" className="rounded-full h-9 px-5 text-xs font-bold bg-slate-900 text-white hover:bg-slate-800">Generate Report</Button>
+              </div>
             </div>
 
             {/* The SaaS Content */}
             <div className="flex-1 overflow-auto bg-[#F8FAFC] p-8 md:p-12 relative flex items-start justify-center">
-               <div className="w-full max-w-4xl relative">
-                  {/* The SaaS Image provided by user */}
-                  <div className="relative rounded-[32px] overflow-hidden shadow-[0_40px_100px_-15px_rgba(0,0,0,0.15)] border border-slate-200 bg-white">
-                    <ImageWithFallback 
-                      src={saasMockup} 
-                      alt="Transcript Mockup" 
-                      className="w-full h-auto"
-                    />
-                    
-                    {/* Animated Annotations with Real Design Audit Data */}
-                    <AnnotationPin delay={1.5} x="20%" y="24%" label="Contrast Ratio: 2.4:1 (Fail WCAG AA)" type="error" />
-                    <AnnotationPin delay={2.0} x="68%" y="38%" label="Touch Target: 32px (Min 44px req.)" type="warning" />
-                    <AnnotationPin delay={2.5} x="35%" y="60%" label="Visual Hierarchy: Optimal Flow" type="success" />
-                    <AnnotationPin delay={3.0} x="55%" y="82%" label="Missing ARIA: 'expanded' state" type="error" />
-                  </div>
+              <div className="w-full max-w-4xl relative">
+                {/* The SaaS Image provided by user */}
+                <div className="relative rounded-[32px] overflow-hidden shadow-[0_40px_100px_-15px_rgba(0,0,0,0.15)] border border-slate-200 bg-white">
+                  <ImageWithFallback
+                    src={saasMockup}
+                    alt="Transcript Mockup"
+                    className="w-full h-auto"
+                  />
 
-                  {/* Floating Vision AI HUD elements */}
-                  <motion.div 
-                    initial={{ opacity: 0, x: -20 }}
-                    whileInView={{ opacity: 1, x: 0 }}
-                    transition={{ delay: 1.2 }}
-                    className="absolute -left-12 top-1/2 -translate-y-1/2 bg-white/90 backdrop-blur-xl p-6 rounded-[24px] shadow-2xl border border-white flex flex-col gap-4 z-20 hidden xl:flex w-[220px]"
-                  >
-                     <div className="flex items-center gap-2">
-                        <Target className="w-4 h-4 text-primary" />
-                        <span className="text-xs font-black text-slate-900 uppercase tracking-tight">Audit Health</span>
-                     </div>
-                     <div className="space-y-3">
-                        <div className="flex justify-between items-center text-[10px] font-black uppercase text-slate-400 tracking-widest">
-                           <span>Score</span>
-                           <span className="text-primary">74/100</span>
-                        </div>
-                        <div className="h-1.5 w-full bg-slate-100 rounded-full overflow-hidden">
-                           <motion.div initial={{ width: 0 }} whileInView={{ width: '74%' }} transition={{ delay: 1.5, duration: 1 }} className="h-full bg-primary" />
-                        </div>
-                        <p className="text-[10px] font-bold text-slate-500 leading-relaxed">
-                          Your UI is currently failing 4 critical WCAG 2.1 criteria. Click to auto-fix.
-                        </p>
-                     </div>
-                  </motion.div>
-               </div>
+                  {/* Animated Annotations with Real Design Audit Data */}
+                  <AnnotationPin delay={1.5} x="20%" y="24%" label="Contrast Ratio: 2.4:1 (Fail WCAG AA)" type="error" />
+                  <AnnotationPin delay={2.0} x="68%" y="38%" label="Touch Target: 32px (Min 44px req.)" type="warning" />
+                  <AnnotationPin delay={2.5} x="35%" y="60%" label="Visual Hierarchy: Optimal Flow" type="success" />
+                  <AnnotationPin delay={3.0} x="55%" y="82%" label="Missing ARIA: 'expanded' state" type="error" />
+                </div>
+
+                {/* Floating Vision AI HUD elements */}
+                <motion.div
+                  initial={{ opacity: 0, x: -20 }}
+                  whileInView={{ opacity: 1, x: 0 }}
+                  transition={{ delay: 1.2 }}
+                  className="absolute -left-12 top-1/2 -translate-y-1/2 bg-white/90 backdrop-blur-xl p-6 rounded-[24px] shadow-2xl border border-white flex flex-col gap-4 z-20 hidden xl:flex w-[220px]"
+                >
+                  <div className="flex items-center gap-2">
+                    <Target className="w-4 h-4 text-primary" />
+                    <span className="text-xs font-black text-slate-900 uppercase tracking-tight">Audit Health</span>
+                  </div>
+                  <div className="space-y-3">
+                    <div className="flex justify-between items-center text-[10px] font-black uppercase text-slate-400 tracking-widest">
+                      <span>Score</span>
+                      <span className="text-primary">74/100</span>
+                    </div>
+                    <div className="h-1.5 w-full bg-slate-100 rounded-full overflow-hidden">
+                      <motion.div initial={{ width: 0 }} whileInView={{ width: '74%' }} transition={{ delay: 1.5, duration: 1 }} className="h-full bg-primary" />
+                    </div>
+                    <p className="text-[10px] font-bold text-slate-500 leading-relaxed">
+                      Your UI is currently failing 4 critical WCAG 2.1 criteria. Click to auto-fix.
+                    </p>
+                  </div>
+                </motion.div>
+              </div>
             </div>
           </div>
         </motion.div>
@@ -344,23 +344,23 @@ export function LandingPage({ onNavigate }: LandingPageProps) {
     <div className="min-h-screen bg-[#FDFDFD] text-slate-900 selection:bg-primary/10 font-['Helvetica_Neue',_Helvetica,_Arial,_sans-serif] overflow-x-hidden">
       {/* Background Elements */}
       <div className="fixed inset-0 z-0 pointer-events-none overflow-hidden">
-        <div 
-          className="absolute inset-0 opacity-[0.4]" 
-          style={{ 
+        <div
+          className="absolute inset-0 opacity-[0.4]"
+          style={{
             backgroundImage: 'radial-gradient(#e2e8f0 0.5px, transparent 0.5px), radial-gradient(#e2e8f0 0.5px, #FDFDFD 0.5px)',
             backgroundSize: '32px 32px',
             backgroundPosition: '0 0, 16px 16px'
-          }} 
+          }}
         />
-        <motion.div 
+        <motion.div
           animate={{ scale: [1, 1.2, 1], opacity: [0.3, 0.4, 0.3] }}
           transition={{ duration: 8, repeat: Infinity, ease: "easeInOut" }}
-          className="absolute top-[-10%] left-[-10%] w-[40%] h-[40%] bg-primary/10 rounded-full blur-[120px]" 
+          className="absolute top-[-10%] left-[-10%] w-[40%] h-[40%] bg-primary/10 rounded-full blur-[120px]"
         />
       </div>
 
       {/* Navigation */}
-      <motion.nav 
+      <motion.nav
         initial={{ y: -20, opacity: 0 }}
         animate={{ y: 0, opacity: 1 }}
         className="relative z-50 border-b border-slate-100/50 bg-white/70 backdrop-blur-2xl"
@@ -374,8 +374,8 @@ export function LandingPage({ onNavigate }: LandingPageProps) {
           </div>
 
           <div className="flex items-center gap-4">
-            <Button variant="ghost" className="text-slate-900 font-black text-xs uppercase tracking-widest">Sign In</Button>
-            <Button 
+            <Button variant="ghost" className="text-slate-900 font-black text-xs uppercase tracking-widest" onClick={() => onNavigate('auth')}>Sign In</Button>
+            <Button
               onClick={() => onNavigate('upload')}
               className="bg-slate-900 text-white hover:bg-slate-800 font-black px-8 py-6 shadow-2xl rounded-[18px] transition-all active:scale-95 text-xs uppercase tracking-widest"
             >
@@ -401,9 +401,9 @@ export function LandingPage({ onNavigate }: LandingPageProps) {
             <Button size="lg" onClick={() => onNavigate('upload')} className="h-16 px-12 text-xl bg-slate-900 hover:bg-slate-800 text-white rounded-[24px] font-black shadow-2xl transition-all hover:scale-[1.02] active:scale-95 group">
               Start Your Audit <ArrowRight className="w-6 h-6 ml-3 group-hover:translate-x-1 transition-transform" />
             </Button>
-            <Button 
-              variant="outline" 
-              size="lg" 
+            <Button
+              variant="outline"
+              size="lg"
               onClick={() => onNavigate('dashboard', SAMPLE_REPORT_DATA)}
               className="h-16 px-12 text-xl border-slate-200 hover:bg-slate-50 text-slate-900 rounded-[24px] font-black"
             >
@@ -426,7 +426,7 @@ export function LandingPage({ onNavigate }: LandingPageProps) {
 
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 h-full">
           {/* FEATURE 1: Intelligent Annotations (Big Card) */}
-          <motion.div 
+          <motion.div
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
@@ -440,23 +440,23 @@ export function LandingPage({ onNavigate }: LandingPageProps) {
                 <h3 className="text-xl font-black text-slate-900">Intelligent Annotations</h3>
               </div>
               <p className="text-sm font-medium text-slate-500 max-w-md mb-6 leading-relaxed">
-                Our Vision AI identifies every UI element and pins precise feedback 
+                Our Vision AI identifies every UI element and pins precise feedback
                 exactly where it matters. No more vague feedback on full-screen screenshots.
               </p>
             </div>
-            
+
             <div className="flex-1 px-10 pb-10 relative">
               <div className="bg-[#FAFAFA] border border-slate-200 rounded-2xl h-full p-0 shadow-inner overflow-hidden relative min-h-[400px]">
                 <MeetingTranscriptUI />
-                
+
                 {/* Annotation Pin 1 */}
-                <motion.div 
+                <motion.div
                   initial={{ scale: 0 }}
                   whileInView={{ scale: 1 }}
                   transition={{ delay: 0.5, type: 'spring' }}
                   className="absolute top-[30%] left-[20%] z-10"
                 >
-                  <motion.div 
+                  <motion.div
                     animate={{ y: [0, -8, 0] }}
                     transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
                     className="flex flex-col items-center"
@@ -474,13 +474,13 @@ export function LandingPage({ onNavigate }: LandingPageProps) {
                 </motion.div>
 
                 {/* Annotation Pin 2 */}
-                <motion.div 
+                <motion.div
                   initial={{ scale: 0 }}
                   whileInView={{ scale: 1 }}
                   transition={{ delay: 0.8, type: 'spring' }}
                   className="absolute top-[50%] right-[25%] z-10"
                 >
-                  <motion.div 
+                  <motion.div
                     animate={{ y: [0, -6, 0] }}
                     transition={{ duration: 2.2, repeat: Infinity, ease: "easeInOut", delay: 0.3 }}
                     className="flex flex-col items-center"
@@ -502,7 +502,7 @@ export function LandingPage({ onNavigate }: LandingPageProps) {
 
           <div className="lg:col-span-5 flex flex-col gap-6">
             {/* FEATURE 2: Suggestion Rule Sets (Dark Theme Card) */}
-            <motion.div 
+            <motion.div
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
@@ -538,7 +538,7 @@ export function LandingPage({ onNavigate }: LandingPageProps) {
                     ))}
                   </div>
                   <div className="mt-8 pt-8 border-t border-white/5 flex justify-center">
-                    <motion.div 
+                    <motion.div
                       animate={{ opacity: [0.5, 1, 0.5] }}
                       transition={{ duration: 2, repeat: Infinity }}
                       className="px-4 py-2 bg-primary/20 border border-primary/30 rounded-full text-primary text-[10px] font-black uppercase tracking-widest"
@@ -551,7 +551,7 @@ export function LandingPage({ onNavigate }: LandingPageProps) {
             </motion.div>
 
             {/* FEATURE 3: Comprehensive Reports (Light Theme Card) */}
-            <motion.div 
+            <motion.div
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
@@ -573,7 +573,7 @@ export function LandingPage({ onNavigate }: LandingPageProps) {
                 <div className="relative w-full h-full min-h-[220px] rounded-2xl overflow-hidden border border-slate-100 shadow-lg group-hover:scale-[1.02] transition-transform duration-500">
                   <ReportCardUI />
                   {/* Floating Score Badge on Preview */}
-                  <motion.div 
+                  <motion.div
                     initial={{ scale: 0.8, opacity: 0 }}
                     whileInView={{ scale: 1, opacity: 1 }}
                     transition={{ delay: 0.5 }}
@@ -585,7 +585,7 @@ export function LandingPage({ onNavigate }: LandingPageProps) {
 
                   {/* Error Summary Pills */}
                   <div className="absolute bottom-4 left-4 right-4 flex gap-3">
-                    <motion.div 
+                    <motion.div
                       initial={{ x: -20, opacity: 0 }}
                       whileInView={{ x: 0, opacity: 1 }}
                       transition={{ delay: 0.7 }}
@@ -597,8 +597,8 @@ export function LandingPage({ onNavigate }: LandingPageProps) {
                       </div>
                       <AlertCircle className="w-4 h-4 opacity-50" />
                     </motion.div>
-                    
-                    <motion.div 
+
+                    <motion.div
                       initial={{ x: 20, opacity: 0 }}
                       whileInView={{ x: 0, opacity: 1 }}
                       transition={{ delay: 0.8 }}
@@ -684,7 +684,7 @@ export function LandingPage({ onNavigate }: LandingPageProps) {
                 <span className="font-bold text-lg text-slate-900">Design Snapper</span>
               </div>
               <p className="text-slate-500 text-sm max-w-xs font-medium leading-relaxed">
-                The world's first automated design audit platform for founders and product teams. 
+                The world's first automated design audit platform for founders and product teams.
                 Auditing designs at the speed of thought.
               </p>
             </div>
