@@ -1,7 +1,7 @@
 import { useState, useRef, useCallback, useEffect } from 'react';
 import { createPortal } from 'react-dom';
 import { motion, AnimatePresence } from 'motion/react';
-import { TrendingUp, ArrowRight } from 'lucide-react';
+import { TrendingUp, ArrowRight, Sparkles } from 'lucide-react';
 
 interface Annotation {
   id: number;
@@ -20,9 +20,10 @@ interface AnnotationPinProps {
   annotation: Annotation;
   isSelected: boolean;
   onSelect: (id: number | null) => void;
+  onLearnMore?: (annotation: Annotation) => void;
 }
 
-export function AnnotationPin({ annotation, isSelected, onSelect }: AnnotationPinProps) {
+export function AnnotationPin({ annotation, isSelected, onSelect, onLearnMore }: AnnotationPinProps) {
   const [isHovered, setIsHovered] = useState(false);
   const [popoverPos, setPopoverPos] = useState<{
     x: number;
@@ -211,21 +212,35 @@ export function AnnotationPin({ annotation, isSelected, onSelect }: AnnotationPi
                         <span className="block text-[10px] text-slate-400 mb-0.5 lowercase font-medium">issue</span>
                         <p className="text-[11px] text-slate-600 leading-normal">{annotation.current}</p>
                       </div>
-                      
+
                       <div>
                         <span className="block text-[10px] text-[rgba(15,123,63,0.8)] mb-0.5 lowercase font-bold">solution</span>
                         <p className="text-[11px] text-[rgb(0,0,0)] font-bold leading-normal">{annotation.suggested}</p>
                       </div>
                     </div>
+
+                    {onLearnMore && (
+                      <div className="pt-2 border-t border-slate-100/50 mt-2 flex justify-end">
+                        <button
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            onLearnMore(annotation);
+                          }}
+                          className="text-[10px] text-[rgb(0,102,255)] hover:text-primary transition-colors flex items-center gap-1 group/btn font-[Inter] font-semibold"
+                        >
+                          learn more
+                          <Sparkles className="w-2.5 h-2.5 opacity-0 group-hover/btn:opacity-100 transition-opacity" />
+                        </button>
+                      </div>
+                    )}
                   </div>
                 </div>
               </div>
 
               {/* Arrow */}
               <div
-                className={`absolute left-1/2 w-3 h-3 bg-white rotate-45 border ${
-                  annotation.severity === 'critical' ? 'border-red-200/50' : 'border-blue-200/50'
-                }`}
+                className={`absolute left-1/2 w-3 h-3 bg-white rotate-45 border ${annotation.severity === 'critical' ? 'border-red-200/50' : 'border-blue-200/50'
+                  }`}
                 style={{
                   transform: 'translateX(-50%) rotate(45deg)',
                   zIndex: -1,
@@ -235,9 +250,10 @@ export function AnnotationPin({ annotation, isSelected, onSelect }: AnnotationPi
                 }}
               />
             </motion.div>
-          </AnimatePresence>,
+          </AnimatePresence >,
           document.body
-        )}
+        )
+      }
     </>
   );
 }

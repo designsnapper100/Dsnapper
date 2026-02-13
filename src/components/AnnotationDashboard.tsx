@@ -351,7 +351,7 @@ export function AnnotationDashboard({ onNavigate, data }: AnnotationDashboardPro
       </nav>
 
       <div className="flex h-[calc(100vh-73px)]">
-        <div className="flex-1 p-6 bg-muted/20 relative group">
+        <div className="flex-1 p-6 bg-muted/20 relative group overflow-hidden">
           {images.length > 1 && (
             <>
               <Button variant="outline" size="icon" className={`absolute left-4 top-1/2 -translate-y-1/2 z-30 rounded-full bg-white/80 transition-opacity ${currentSlide === 0 ? 'opacity-0' : 'opacity-100'}`} onClick={(e) => { e.stopPropagation(); prevSlide(); }}><ChevronLeft className="w-6 h-6" /></Button>
@@ -370,14 +370,13 @@ export function AnnotationDashboard({ onNavigate, data }: AnnotationDashboardPro
               </div>
             </div>
 
-            <Card className={`flex-1 p-8 shadow-xl border-slate-200 relative transition-colors ${viewMode === 'heatmap' ? 'bg-slate-900' : 'bg-white'}`}>
+            <Card className={`flex-1 min-h-0 p-8 shadow-xl border-slate-200 relative transition-colors ${viewMode === 'heatmap' ? 'bg-slate-900' : 'bg-white'}`}>
               <div className="absolute inset-0 bg-grid-slate-100 opacity-10 pointer-events-none" />
 
               <div
                 ref={scrollContainerRef}
                 onScroll={handleScroll}
-                className="h-full flex overflow-auto snap-x snap-mandatory scrollbar-hide gap-8"
-                style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
+                className="flex-1 min-h-0 flex overflow-auto snap-x snap-mandatory gap-8"
               >
                 {images.map((img, index) => (
                   <div key={index} className="min-w-full min-h-full snap-center flex justify-center items-start">
@@ -400,6 +399,7 @@ export function AnnotationDashboard({ onNavigate, data }: AnnotationDashboardPro
                                   setSelectedAnnotation(id);
                                   setSidebarMode('technical');
                                 }}
+                                onLearnMore={(ann) => setLearningAnnotation(ann)}
                               />
                             </div>
                           ))}
@@ -485,7 +485,7 @@ export function AnnotationDashboard({ onNavigate, data }: AnnotationDashboardPro
                                     e.stopPropagation();
                                     setLearningAnnotation(annotation);
                                   }}
-                                  className="text-[12px] text-[rgb(0,102,255)] hover:text-primary transition-colors flex items-center gap-1 group/btn font-[Inter] font-bold"
+                                  className="text-[11px] text-[rgb(0,102,255)] hover:text-primary transition-colors flex items-center gap-1 group/btn font-[Inter] font-semibold"
                                 >
                                   learn more
                                   <Sparkles className="w-2.5 h-2.5 opacity-0 group-hover/btn:opacity-100 transition-opacity" />
