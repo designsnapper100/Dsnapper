@@ -5,12 +5,12 @@ import { Card } from './ui/card';
 import { Badge } from './ui/badge';
 import { Tabs, TabsList, TabsTrigger } from './ui/tabs';
 import { Input } from './ui/input';
-import { 
-  ArrowLeft, 
-  Download, 
-  Share2, 
-  AlertTriangle, 
-  Info, 
+import {
+  ArrowLeft,
+  Download,
+  Share2,
+  AlertTriangle,
+  Info,
   CheckCircle2,
   Eye,
   Accessibility,
@@ -92,7 +92,7 @@ export function AnnotationDashboard({ onNavigate, data }: AnnotationDashboardPro
   const [showShareModal, setShowShareModal] = useState(false);
   const [currentSlide, setCurrentSlide] = useState(0);
   const [dimensions, setDimensions] = useState<{ width: number; height: number }>({ width: 0, height: 0 });
-  
+
   const scrollContainerRef = useRef<HTMLDivElement>(null);
   const chatScrollRef = useRef<HTMLDivElement>(null);
   const [chatMessages, setChatMessages] = useState<ChatMessage[]>([]);
@@ -176,13 +176,13 @@ export function AnnotationDashboard({ onNavigate, data }: AnnotationDashboardPro
           break;
         }
       }
-      
+
       // Handle edge case for last pixel
       if (yAbs >= totalStitchedHeight - 1) slideIndex = heights.length - 1;
 
       // 2. Map Y back to the individual image's coordinate space
       const relativeY = ((yAbs - offsets[slideIndex]) / heights[slideIndex]) * 100;
-      
+
       // 3. Map X back to the individual image's coordinate space
       // In UploadPage.tsx, images are drawn centered: x_offset = (maxWidth - img.width) / 2
       let relativeX = a.x;
@@ -275,8 +275,8 @@ export function AnnotationDashboard({ onNavigate, data }: AnnotationDashboardPro
   };
 
   const getSeverityStyles = (severity: 'critical' | 'minor', isSelected: boolean) => {
-    return isSelected 
-      ? 'border-blue-400 bg-blue-50/50 shadow-sm' 
+    return isSelected
+      ? 'border-blue-400 bg-blue-50/50 shadow-sm'
       : 'border-slate-200 hover:border-slate-300 hover:bg-slate-50/40';
   };
 
@@ -321,7 +321,7 @@ export function AnnotationDashboard({ onNavigate, data }: AnnotationDashboardPro
           <Button variant="ghost" onClick={() => onNavigate('upload')} className="flex items-center gap-2"><ArrowLeft className="w-4 h-4" />New</Button>
           <div className="flex items-center gap-4">
             {data.influencerReview && <Badge variant="outline" className="bg-amber-50 text-amber-600 gap-1 border-amber-200/50"><Crown className="w-3 h-3" />{data.influencerReview.persona}</Badge>}
-            
+
             <div className="flex bg-muted p-1 rounded-lg border border-slate-300">
               <Button variant={viewMode === 'annotations' ? 'default' : 'ghost'} size="sm" className="h-8 text-[11px] font-bold px-3" onClick={() => setViewMode('annotations')}>
                 <MousePointer2 className="w-3.5 h-3.5 mr-1.5" />
@@ -334,8 +334,8 @@ export function AnnotationDashboard({ onNavigate, data }: AnnotationDashboardPro
             </div>
 
             <div className="flex items-center gap-2">
-              <Button 
-                className="h-9 font-bold text-xs px-4 bg-slate-900 hover:bg-slate-800 text-white shadow-sm" 
+              <Button
+                className="h-9 font-bold text-xs px-4 bg-slate-900 hover:bg-slate-800 text-white shadow-sm"
                 onClick={() => onNavigate('report', data)}
               >
                 <Eye className="w-3.5 h-3.5 mr-2" />
@@ -360,30 +360,30 @@ export function AnnotationDashboard({ onNavigate, data }: AnnotationDashboardPro
           )}
 
           <div className="max-w-4xl mx-auto h-full flex flex-col">
-                <div className="mb-6 flex justify-between items-end">
-                  <div>
-                    <h1 className="text-2xl font-semibold mb-2">{viewMode === 'annotations' ? 'Audit Results' : 'Heatmap'} {images.length > 1 && <span className="text-sm text-muted-foreground ml-3">Screen {currentSlide + 1}/{images.length}</span>}</h1>
-                    <div className="flex gap-4 text-sm text-muted-foreground">
-                      <span className="flex items-center gap-1.5 px-2.5 py-1 bg-red-50 text-red-700 rounded-md border border-red-100"><span className="font-semibold">{stats.critical} Critical</span></span>
-                      <span className="flex items-center gap-1.5 px-2.5 py-1 bg-blue-50 text-blue-700 rounded-md border border-blue-100"><span className="font-semibold">{stats.minor} Minor</span></span>
-                    </div>
-                  </div>
+            <div className="mb-6 flex justify-between items-end">
+              <div>
+                <h1 className="text-2xl font-semibold mb-2">{viewMode === 'annotations' ? 'Audit Results' : 'Heatmap'} {images.length > 1 && <span className="text-sm text-muted-foreground ml-3">Screen {currentSlide + 1}/{images.length}</span>}</h1>
+                <div className="flex gap-4 text-sm text-muted-foreground">
+                  <span className="flex items-center gap-1.5 px-2.5 py-1 bg-red-50 text-red-700 rounded-md border border-red-100"><span className="font-semibold">{stats.critical} Critical</span></span>
+                  <span className="flex items-center gap-1.5 px-2.5 py-1 bg-blue-50 text-blue-700 rounded-md border border-blue-100"><span className="font-semibold">{stats.minor} Minor</span></span>
                 </div>
-            
+              </div>
+            </div>
+
             <Card className={`flex-1 p-8 shadow-xl border-slate-200 relative transition-colors ${viewMode === 'heatmap' ? 'bg-slate-900' : 'bg-white'}`}>
               <div className="absolute inset-0 bg-grid-slate-100 opacity-10 pointer-events-none" />
-              
-              <div 
+
+              <div
                 ref={scrollContainerRef}
                 onScroll={handleScroll}
-                className="h-full flex overflow-x-auto snap-x snap-mandatory scrollbar-hide gap-8"
+                className="h-full flex overflow-auto snap-x snap-mandatory scrollbar-hide gap-8"
                 style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
               >
                 {images.map((img, index) => (
-                  <div key={index} className="min-w-full h-full snap-center flex justify-center items-start overflow-visible">
+                  <div key={index} className="min-w-full min-h-full snap-center flex justify-center items-start">
                     <div className="relative max-w-full" style={{ lineHeight: 0 }}>
                       <ImageWithFallback src={img} alt={`Screen ${index + 1}`} className={`max-w-full w-auto h-auto rounded-lg shadow-sm border transition-all duration-700 block ${viewMode === 'heatmap' ? 'opacity-80' : ''}`} onLoad={updateDimensions} />
-                      
+
                       {viewMode === 'heatmap' && currentSlide === index && dimensions.width > 0 && (
                         <HeatmapCanvas annotations={filteredAnnotations} width={dimensions.width} height={dimensions.height} className="absolute inset-0 pointer-events-none rounded-lg transition-opacity animate-in fade-in" />
                       )}
@@ -473,14 +473,14 @@ export function AnnotationDashboard({ onNavigate, data }: AnnotationDashboardPro
                                 <span className="block text-[12px] text-slate-400 mb-0.5 lowercase font-medium">issue</span>
                                 <p className="text-[12px] text-slate-600 leading-normal">{annotation.current}</p>
                               </div>
-                              
+
                               <div>
                                 <span className="block text-[12px] text-green-500/80 mb-0.5 lowercase font-medium text-[rgba(3,107,45,0.8)] font-bold">solution</span>
                                 <p className="text-[12px] text-[rgb(0,0,0)] font-bold leading-normal">{annotation.suggested}</p>
                               </div>
 
                               <div className="pt-2 border-t border-slate-100/50 mt-2 flex justify-end">
-                                <button 
+                                <button
                                   onClick={(e) => {
                                     e.stopPropagation();
                                     setLearningAnnotation(annotation);
@@ -506,38 +506,38 @@ export function AnnotationDashboard({ onNavigate, data }: AnnotationDashboardPro
             ) : (
               data.influencerReview && (
                 <div className="flex-1 flex flex-col h-full bg-slate-50/50">
-                   <div className="px-6 pt-4 pb-2 flex items-center justify-center gap-2">
-                     <div className="flex p-1 bg-white border rounded-lg">
-                       <button onClick={() => setInfluencerView('review')} className={`px-4 py-1.5 text-xs font-bold rounded-md ${influencerView === 'review' ? 'bg-slate-900 text-white' : 'text-slate-500'}`}>Review</button>
-                       <button onClick={() => setInfluencerView('chat')} className={`px-4 py-1.5 text-xs font-bold rounded-md ${influencerView === 'chat' ? 'bg-slate-900 text-white' : 'text-slate-500'}`}>Chat</button>
-                     </div>
-                   </div>
-                   {influencerView === 'review' ? (
-                     <div className="flex-1 overflow-y-auto px-6 py-4 space-y-6">
-                        <div className="space-y-4">
-                           <h2 className="text-lg font-black">{data.influencerReview.persona}</h2>
-                           <div className="bg-white p-5 rounded-2xl border border-slate-100"><p className="text-sm italic">"{data.influencerReview.overallImpression}"</p></div>
-                        </div>
-                        <div className="space-y-3">
-                           <h3 className="text-xs font-black uppercase text-slate-400">Strategic Feedback</h3>
-                           {data.influencerReview.strategicFeedback.map((point, i) => (<p key={i} className="text-sm">{point}</p>))}
-                        </div>
-                     </div>
-                   ) : (
-                     <div className="flex-1 flex flex-col min-h-0">
-                       <div className="flex-1 overflow-y-auto px-4 py-4 space-y-4" ref={chatScrollRef}>
-                         {chatMessages.map((msg, i) => (
-                           <div key={i} className={`flex gap-3 ${msg.role === 'user' ? 'flex-row-reverse' : ''}`}>
-                             <div className={`p-3 rounded-2xl max-w-[80%] text-sm ${msg.role === 'user' ? 'bg-slate-900 text-white' : 'bg-white border shadow-sm'}`}>{msg.content as string}</div>
-                           </div>
-                         ))}
-                       </div>
-                       <div className="p-4 border-t bg-white flex gap-2">
-                         <Input placeholder="Ask..." className="rounded-xl h-10" value={chatInput} onChange={(e) => setChatInput(e.target.value)} disabled={isChatLoading} />
-                         <Button size="icon" className="h-10 w-10 bg-slate-900" onClick={handleSendMessage} disabled={!chatInput.trim() || isChatLoading}><Send className="w-4 h-4" /></Button>
-                       </div>
-                     </div>
-                   )}
+                  <div className="px-6 pt-4 pb-2 flex items-center justify-center gap-2">
+                    <div className="flex p-1 bg-white border rounded-lg">
+                      <button onClick={() => setInfluencerView('review')} className={`px-4 py-1.5 text-xs font-bold rounded-md ${influencerView === 'review' ? 'bg-slate-900 text-white' : 'text-slate-500'}`}>Review</button>
+                      <button onClick={() => setInfluencerView('chat')} className={`px-4 py-1.5 text-xs font-bold rounded-md ${influencerView === 'chat' ? 'bg-slate-900 text-white' : 'text-slate-500'}`}>Chat</button>
+                    </div>
+                  </div>
+                  {influencerView === 'review' ? (
+                    <div className="flex-1 overflow-y-auto px-6 py-4 space-y-6">
+                      <div className="space-y-4">
+                        <h2 className="text-lg font-black">{data.influencerReview.persona}</h2>
+                        <div className="bg-white p-5 rounded-2xl border border-slate-100"><p className="text-sm italic">"{data.influencerReview.overallImpression}"</p></div>
+                      </div>
+                      <div className="space-y-3">
+                        <h3 className="text-xs font-black uppercase text-slate-400">Strategic Feedback</h3>
+                        {data.influencerReview.strategicFeedback.map((point, i) => (<p key={i} className="text-sm">{point}</p>))}
+                      </div>
+                    </div>
+                  ) : (
+                    <div className="flex-1 flex flex-col min-h-0">
+                      <div className="flex-1 overflow-y-auto px-4 py-4 space-y-4" ref={chatScrollRef}>
+                        {chatMessages.map((msg, i) => (
+                          <div key={i} className={`flex gap-3 ${msg.role === 'user' ? 'flex-row-reverse' : ''}`}>
+                            <div className={`p-3 rounded-2xl max-w-[80%] text-sm ${msg.role === 'user' ? 'bg-slate-900 text-white' : 'bg-white border shadow-sm'}`}>{msg.content as string}</div>
+                          </div>
+                        ))}
+                      </div>
+                      <div className="p-4 border-t bg-white flex gap-2">
+                        <Input placeholder="Ask..." className="rounded-xl h-10" value={chatInput} onChange={(e) => setChatInput(e.target.value)} disabled={isChatLoading} />
+                        <Button size="icon" className="h-10 w-10 bg-slate-900" onClick={handleSendMessage} disabled={!chatInput.trim() || isChatLoading}><Send className="w-4 h-4" /></Button>
+                      </div>
+                    </div>
+                  )}
                 </div>
               )
             )}
@@ -557,18 +557,18 @@ export function AnnotationDashboard({ onNavigate, data }: AnnotationDashboardPro
 
       {/* Learn More Modal */}
       {learningAnnotation && (
-        <div 
+        <div
           className="fixed inset-0 z-[200] flex items-center justify-center bg-slate-900/40 backdrop-blur-[2px] p-4 animate-in fade-in duration-300"
           onClick={() => setLearningAnnotation(null)}
         >
-          <div 
+          <div
             className="bg-white flex flex-col items-center overflow-clip relative rounded-[16px] shadow-[0px_20px_24px_-4px_rgba(10,13,18,0.08),0px_8px_8px_-4px_rgba(10,13,18,0.03),0px_3px_3px_-1.5px_rgba(10,13,18,0.04)] w-full max-w-[640px] animate-in zoom-in-95 duration-300"
             onClick={(e) => e.stopPropagation()}
           >
             {/* Background Pattern Decorative */}
             <div className="absolute left-[-120px] size-[336px] top-[-120px] pointer-events-none opacity-50" data-name="Background pattern decorative">
               <div className="-translate-x-1/2 absolute left-1/2 size-[336px] top-0">
-                 <div className="-translate-x-1/2 -translate-y-1/2 absolute left-1/2 size-[336px] top-1/2" style={{ backgroundImage: "url('data:image/svg+xml;utf8,<svg viewBox=\'0 0 336 336\' xmlns=\'http://www.w3.org/2000/svg\' preserveAspectRatio=\'none\'><rect x=\'0\' y=\'0\' height=\'100%\' width=\'100%\' fill=\'url(%23grad)\' opacity=\'1\'/><defs><radialGradient id=\'grad\' gradientUnits=\'userSpaceOnUse\' cx=\'0\' cy=\'0\' r=\'10\' gradientTransform=\'matrix(-0.0000017664 16.8 -16.8 -0.0000027601 168 168)\'><stop stop-color=\'rgba(0,0,0,1)\' offset=\'0\'/><stop stop-color=\'rgba(0,0,0,0)\' offset=\'1\'/></radialGradient></defs></svg>')" }} />
+                <div className="-translate-x-1/2 -translate-y-1/2 absolute left-1/2 size-[336px] top-1/2" style={{ backgroundImage: "url('data:image/svg+xml;utf8,<svg viewBox=\'0 0 336 336\' xmlns=\'http://www.w3.org/2000/svg\' preserveAspectRatio=\'none\'><rect x=\'0\' y=\'0\' height=\'100%\' width=\'100%\' fill=\'url(%23grad)\' opacity=\'1\'/><defs><radialGradient id=\'grad\' gradientUnits=\'userSpaceOnUse\' cx=\'0\' cy=\'0\' r=\'10\' gradientTransform=\'matrix(-0.0000017664 16.8 -16.8 -0.0000027601 168 168)\'><stop stop-color=\'rgba(0,0,0,1)\' offset=\'0\'/><stop stop-color=\'rgba(0,0,0,0)\' offset=\'1\'/></radialGradient></defs></svg>')" }} />
               </div>
               <div className="-translate-x-1/2 absolute left-1/2 size-[336px] top-0">
                 <svg className="block size-full" fill="none" preserveAspectRatio="none" viewBox="0 0 336 336">
@@ -590,7 +590,7 @@ export function AnnotationDashboard({ onNavigate, data }: AnnotationDashboardPro
                 <div className="flex justify-between items-start">
                   <div className="relative size-[48px] shrink-0">
                     <div className="bg-[#f9f5ff] rounded-[9999px] size-full flex items-center justify-center">
-                       <svg className="size-[24px]" fill="none" preserveAspectRatio="none" viewBox="0 0 44 44">
+                      <svg className="size-[24px]" fill="none" preserveAspectRatio="none" viewBox="0 0 44 44">
                         <g>
                           <path d="M13.7646 2.75C17.4097 2.75027 20.8665 6.41699 24.5116 6.41699H31.2002C35.6805 6.41699 37.9206 6.41713 39.6318 7.28906C41.1371 8.05605 42.361 9.2799 43.1279 10.7852C43.9997 12.4964 44 14.7366 44 19.2168V28.4502C44 32.9305 43.9999 35.1706 43.1279 36.8818C42.3609 38.3871 41.1371 39.6109 39.6318 40.3779C37.9206 41.2499 35.6805 41.25 31.2002 41.25H12.7998C8.31953 41.25 6.07943 41.2499 4.36816 40.3779C2.86287 39.6109 1.63906 38.3871 0.87207 36.8818C0.000145069 35.1706 1.84194e-10 32.9305 0 28.4502V19.2168C0 18.8255 0.000395523 18.4511 0.000976562 18.0928C0.000647059 18.0743 0 18.0556 0 18.0371V10.75C2.38773e-07 6.33172 3.58172 2.75 8 2.75H13.7646Z" fill="#7F56D9" />
                           <path d="M3 14C3 11.7909 4.79086 10 7 10H37C39.2091 10 41 11.7909 41 14V34C41 36.2091 39.2091 38 37 38H7C4.79086 38 3 36.2091 3 34V14Z" fill="white" />
@@ -612,14 +612,14 @@ export function AnnotationDashboard({ onNavigate, data }: AnnotationDashboardPro
                 <div className="relative mt-2">
                   <div className="absolute bottom-0 left-0 right-0 h-[1px] bg-[#e9eaeb]" />
                   <div className="flex gap-4 relative">
-                    <button 
+                    <button
                       onClick={() => setModalTab('analysis')}
                       className={`h-[36px] px-1 relative transition-all ${modalTab === 'analysis' ? 'text-black font-bold' : 'text-[#717680] font-semibold'}`}
                     >
                       Analysis
                       {modalTab === 'analysis' && <div className="absolute bottom-0 left-0 right-0 h-[2px] bg-black" />}
                     </button>
-                    <button 
+                    <button
                       onClick={() => setModalTab('insights')}
                       className={`h-[36px] px-1 relative transition-all ${modalTab === 'insights' ? 'text-black font-bold' : 'text-[#717680] font-semibold'}`}
                     >
@@ -637,20 +637,20 @@ export function AnnotationDashboard({ onNavigate, data }: AnnotationDashboardPro
                     <div className="space-y-8 animate-in fade-in slide-in-from-bottom-2 duration-300">
                       <div className="flex flex-col gap-6">
                         <div className="flex flex-col gap-2">
-                           <p className="text-[#181d27] font-semibold text-[15px]">Detailed Observation</p>
-                           <p className="text-[14px] text-[#535862] leading-[24px] font-normal">
-                             {learningAnnotation.current} This observation was flagged due to its potential impact on the overall user experience and interface consistency. Our analysis indicates that users may encounter friction when interacting with this specific component in its current state.
-                           </p>
+                          <p className="text-[#181d27] font-semibold text-[15px]">Detailed Observation</p>
+                          <p className="text-[14px] text-[#535862] leading-[24px] font-normal">
+                            {learningAnnotation.current} This observation was flagged due to its potential impact on the overall user experience and interface consistency. Our analysis indicates that users may encounter friction when interacting with this specific component in its current state.
+                          </p>
                         </div>
-                        
+
                         <div className="flex flex-col gap-2 p-5 bg-[#DCFAE6]/30 border border-[#DCFAE6] rounded-2xl">
-                           <p className="text-[#079455] font-bold text-[15px] flex items-center gap-2">
-                             <Check className="size-4" />
-                             Expert Recommendation
-                           </p>
-                           <p className="text-[14px] text-[rgb(18,18,18)] leading-[24px] font-semibold">
-                             {learningAnnotation.suggested} By implementing this fix, you align the interface with industry-standard patterns, thereby reducing cognitive load and improving task completion efficiency for all user segments.
-                           </p>
+                          <p className="text-[#079455] font-bold text-[15px] flex items-center gap-2">
+                            <Check className="size-4" />
+                            Expert Recommendation
+                          </p>
+                          <p className="text-[14px] text-[rgb(18,18,18)] leading-[24px] font-semibold">
+                            {learningAnnotation.suggested} By implementing this fix, you align the interface with industry-standard patterns, thereby reducing cognitive load and improving task completion efficiency for all user segments.
+                          </p>
                         </div>
                       </div>
                     </div>
@@ -658,23 +658,23 @@ export function AnnotationDashboard({ onNavigate, data }: AnnotationDashboardPro
                     <div className="space-y-8 animate-in fade-in slide-in-from-bottom-2 duration-300">
                       <div className="flex flex-col gap-8">
                         <div className="flex flex-col gap-3">
-                           <p className="text-[#181d27] font-semibold text-[15px] flex items-center gap-2">
-                             <Sparkles className="size-4 text-purple-600" />
-                             Strategic Business Impact
-                           </p>
-                           <p className="text-[14px] text-[#535862] leading-[24px] font-normal italic">
-                             "{learningAnnotation.impact || "Addressing this specific friction point is critical for maintaining session momentum and preventing user drop-off at key decision stages. Historically, improvements in this area lead to a 12-15% increase in conversion through these specific user flows."}"
-                           </p>
+                          <p className="text-[#181d27] font-semibold text-[15px] flex items-center gap-2">
+                            <Sparkles className="size-4 text-purple-600" />
+                            Strategic Business Impact
+                          </p>
+                          <p className="text-[14px] text-[#535862] leading-[24px] font-normal italic">
+                            "{learningAnnotation.impact || "Addressing this specific friction point is critical for maintaining session momentum and preventing user drop-off at key decision stages. Historically, improvements in this area lead to a 12-15% increase in conversion through these specific user flows."}"
+                          </p>
                         </div>
 
                         <div className="flex flex-col gap-3 p-5 bg-white border border-slate-200 rounded-2xl shadow-sm">
-                           <p className="text-[#181d27] font-semibold text-[15px] flex items-center gap-2">
-                             <Lightbulb className="size-4 text-blue-600" />
-                             Behavioral Psychology
-                           </p>
-                           <p className="text-[14px] text-[#535862] leading-[24px] font-normal">
-                             {getPsychologyInfo(learningAnnotation.type)} This psychological principle is fundamental to how humans process visual information and make rapid decisions. Neglecting this often leads to "frustration clicks" and premature session termination.
-                           </p>
+                          <p className="text-[#181d27] font-semibold text-[15px] flex items-center gap-2">
+                            <Lightbulb className="size-4 text-blue-600" />
+                            Behavioral Psychology
+                          </p>
+                          <p className="text-[14px] text-[#535862] leading-[24px] font-normal">
+                            {getPsychologyInfo(learningAnnotation.category)} This psychological principle is fundamental to how humans process visual information and make rapid decisions. Neglecting this often leads to "frustration clicks" and premature session termination.
+                          </p>
                         </div>
                       </div>
                     </div>

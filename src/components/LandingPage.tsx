@@ -372,12 +372,7 @@ export function LandingPage({ onNavigate }: LandingPageProps) {
             </div>
             <span className="font-black text-2xl tracking-tighter text-slate-900 uppercase italic">Snapper.</span>
           </div>
-          <div className="hidden md:flex items-center gap-10 text-xs font-black uppercase tracking-widest text-slate-400">
-            <a href="#" className="hover:text-slate-900 transition-colors">Audit Engine</a>
-            <a href="#" className="hover:text-slate-900 transition-colors">Case Studies</a>
-            <a href="#" className="hover:text-slate-900 transition-colors">Frameworks</a>
-            <a href="#" className="hover:text-slate-900 transition-colors">Enterprise</a>
-          </div>
+
           <div className="flex items-center gap-4">
             <Button variant="ghost" className="text-slate-900 font-black text-xs uppercase tracking-widest">Sign In</Button>
             <Button 
