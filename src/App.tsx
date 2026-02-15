@@ -9,13 +9,14 @@ import { InfluencerChat } from './components/InfluencerChat';
 import { SEO } from './components/SEO';
 import { projectId, publicAnonKey } from './utils/supabase/info';
 import { Loader2 } from 'lucide-react';
-import { Toaster } from 'sonner@2.0.3';
+import { Toaster } from 'sonner';
 
 import { AuthPage } from './components/AuthPage';
+import { CompleteProfilePage } from './components/CompleteProfilePage';
 import { supabase } from './utils/supabase/client';
 import { Session } from '@supabase/supabase-js';
 
-type Screen = 'landing' | 'upload' | 'dashboard' | 'report' | 'influencer-library' | 'chat' | 'auth';
+type Screen = 'landing' | 'upload' | 'dashboard' | 'report' | 'influencer-library' | 'chat' | 'auth' | 'complete-profile';
 
 export default function App() {
   const [currentScreen, setCurrentScreen] = useState<Screen>('landing');
@@ -39,8 +40,20 @@ export default function App() {
       data: { subscription },
     } = supabase.auth.onAuthStateChange((_event, session) => {
       setSession(session);
-      if (session && currentScreen === 'auth') {
-        navigateToScreen('upload');
+
+      if (session) {
+        // Check if user has a username
+        const hasUsername = !!session.user.user_metadata?.username;
+
+        if (!hasUsername) {
+          // If no username, force redirect to complete profile
+          if (currentScreen !== 'complete-profile') {
+            navigateToScreen('complete-profile');
+          }
+        } else if (currentScreen === 'auth' || currentScreen === 'complete-profile') {
+          // If on auth or complete-profile and has username, go to upload
+          navigateToScreen('upload');
+        }
       }
     });
 
@@ -56,6 +69,7 @@ export default function App() {
       case 'influencer-library': return 'Select Design Expert - Design Snapper';
       case 'chat': return 'Chat with Influencer - Design Snapper';
       case 'auth': return 'Sign In - Design Snapper';
+      case 'complete-profile': return 'Complete Profile - Design Snapper';
       default: return 'Design Snapper';
     }
   };
@@ -69,6 +83,7 @@ export default function App() {
       case 'influencer-library': return '/library';
       case 'chat': return '/chat';
       case 'auth': return '/auth';
+      case 'complete-profile': return '/complete-profile';
       default: return '/';
     }
   };
@@ -119,6 +134,16 @@ export default function App() {
       const reportId = urlParams.get('reportId');
       const path = window.location.pathname;
 
+      // Check current session first to handle /complete-profile logic on refresh
+      const { data: { session: currentSession } } = await supabase.auth.getSession();
+
+      if (currentSession && !currentSession.user.user_metadata?.username) {
+        // Force complete profile if logged in but no username
+        setCurrentScreen('complete-profile');
+        setIsLoading(false);
+        return;
+      }
+
       // Handle shared report priority
       if (reportId) {
         try {
@@ -157,6 +182,13 @@ export default function App() {
         case '/report': setCurrentScreen('landing'); break; // No data, redirect home
         case '/library': setCurrentScreen('influencer-library'); break;
         case '/chat': setCurrentScreen('chat'); break;
+        case '/complete-profile':
+          if (currentSession && !currentSession.user.user_metadata?.username) {
+            setCurrentScreen('complete-profile');
+          } else {
+            setCurrentScreen('landing');
+          }
+          break;
         default: setCurrentScreen('landing');
       }
       setIsLoading(false);
@@ -186,6 +218,7 @@ export default function App() {
             break;
           case '/library': setCurrentScreen('influencer-library'); break;
           case '/chat': setCurrentScreen('chat'); break;
+          case '/complete-profile': setCurrentScreen('complete-profile'); break;
           default: setCurrentScreen('landing');
         }
       }
@@ -238,6 +271,8 @@ export default function App() {
         return <InfluencerChat onNavigate={navigateToScreen} initialPersonaId={analysisData?.selectedPersona} />;
       case 'auth':
         return <AuthPage onNavigate={navigateToScreen} />;
+      case 'complete-profile':
+        return <CompleteProfilePage onNavigate={navigateToScreen} />;
       default:
         return <LandingPage onNavigate={navigateToScreen} />;
     }
