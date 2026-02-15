@@ -13,10 +13,11 @@ import { Toaster } from 'sonner';
 
 import { AuthPage } from './components/AuthPage';
 import { CompleteProfilePage } from './components/CompleteProfilePage';
+import { PricingPage } from './components/PricingPage';
 import { supabase } from './utils/supabase/client';
 import { Session } from '@supabase/supabase-js';
 
-type Screen = 'landing' | 'upload' | 'dashboard' | 'report' | 'influencer-library' | 'chat' | 'auth' | 'complete-profile';
+type Screen = 'landing' | 'upload' | 'dashboard' | 'report' | 'influencer-library' | 'chat' | 'auth' | 'complete-profile' | 'pricing';
 
 export default function App() {
   const [currentScreen, setCurrentScreen] = useState<Screen>('landing');
@@ -70,6 +71,7 @@ export default function App() {
       case 'chat': return 'Chat with Influencer - Design Snapper';
       case 'auth': return 'Sign In - Design Snapper';
       case 'complete-profile': return 'Complete Profile - Design Snapper';
+      case 'pricing': return 'Pricing - Design Snapper';
       default: return 'Design Snapper';
     }
   };
@@ -84,6 +86,7 @@ export default function App() {
       case 'chat': return '/chat';
       case 'auth': return '/auth';
       case 'complete-profile': return '/complete-profile';
+      case 'pricing': return '/pricing';
       default: return '/';
     }
   };
@@ -182,6 +185,7 @@ export default function App() {
         case '/report': setCurrentScreen('landing'); break; // No data, redirect home
         case '/library': setCurrentScreen('influencer-library'); break;
         case '/chat': setCurrentScreen('chat'); break;
+        case '/pricing': setCurrentScreen('pricing'); break;
         case '/complete-profile':
           if (currentSession && !currentSession.user.user_metadata?.username) {
             setCurrentScreen('complete-profile');
@@ -218,6 +222,7 @@ export default function App() {
             break;
           case '/library': setCurrentScreen('influencer-library'); break;
           case '/chat': setCurrentScreen('chat'); break;
+          case '/pricing': setCurrentScreen('pricing'); break;
           case '/complete-profile': setCurrentScreen('complete-profile'); break;
           default: setCurrentScreen('landing');
         }
@@ -273,6 +278,8 @@ export default function App() {
         return <AuthPage onNavigate={navigateToScreen} />;
       case 'complete-profile':
         return <CompleteProfilePage onNavigate={navigateToScreen} />;
+      case 'pricing':
+        return <PricingPage onNavigate={navigateToScreen} />;
       default:
         return <LandingPage onNavigate={navigateToScreen} />;
     }

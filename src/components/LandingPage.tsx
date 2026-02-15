@@ -9,7 +9,7 @@ import type { Session } from '@supabase/supabase-js';
 import saasMockup from 'figma:asset/59f7c40d3db6dd1bd00dec669d25e2bff24a123c.png';
 
 interface LandingPageProps {
-  onNavigate: (screen: 'landing' | 'upload' | 'dashboard' | 'report' | 'auth', data?: any) => void;
+  onNavigate: (screen: 'landing' | 'upload' | 'dashboard' | 'report' | 'auth' | 'pricing', data?: any) => void;
   session?: Session | null;
   onSignOut?: () => void;
 }
@@ -397,8 +397,9 @@ export function LandingPage({ onNavigate, session, onSignOut }: LandingPageProps
           </div>
 
           {session && user ? (
-            /* Logged-in state: Profile picture + name + dropdown */
+            /* Logged-in state: Pricing link + Profile picture + name + dropdown */
             <div className="flex items-center gap-4">
+              <button onClick={() => onNavigate('pricing')} className="text-slate-600 hover:text-slate-900 font-bold text-xs uppercase tracking-widest transition-colors cursor-pointer">Pricing</button>
               <Button
                 onClick={() => onNavigate('upload')}
                 className="bg-slate-900 text-white hover:bg-slate-800 font-black px-8 py-6 shadow-2xl rounded-[18px] transition-all active:scale-95 text-xs uppercase tracking-widest"
@@ -459,6 +460,7 @@ export function LandingPage({ onNavigate, session, onSignOut }: LandingPageProps
           ) : (
             /* Logged-out state: Sign In + Get Started */
             <div className="flex items-center gap-4">
+              <button onClick={() => onNavigate('pricing')} className="text-slate-600 hover:text-slate-900 font-bold text-xs uppercase tracking-widest transition-colors cursor-pointer">Pricing</button>
               <Button variant="ghost" className="text-slate-900 font-black text-xs uppercase tracking-widest" onClick={() => onNavigate('auth')}>Sign In</Button>
               <Button
                 onClick={() => onNavigate('upload')}
