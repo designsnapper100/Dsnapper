@@ -3,6 +3,8 @@ import { cors } from "npm:hono/cors";
 import { logger } from "npm:hono/logger";
 import { jsonrepair } from "npm:jsonrepair";
 import * as kv from "./kv_utils.ts";
+import { S3Client, PutObjectCommand, GetObjectCommand } from "npm:@aws-sdk/client-s3";
+import { getSignedUrl } from "npm:@aws-sdk/s3-request-presigner";
 
 const app = new Hono();
 
@@ -332,16 +334,47 @@ app.post("/make-server-cdc57b20/plugin-upload", async (c) => {
     const { image } = await c.req.json();
     if (!image) return c.json({ error: "No image provided" }, 400);
 
-    const uploadId = crypto.randomUUID();
-    const key = `plugin_upload_${uploadId}`;
+    // Get AWS Config from environment variables
+    // Set via Supabase Dashboard: Settings -> Edge Functions -> Secrets
+    const accessKeyId = Deno.env.get("AWS_ACCESS_KEY_ID");
+    const secretAccessKey = Deno.env.get("AWS_SECRET_ACCESS_KEY");
+    const region = Deno.env.get("AWS_REGION") || "ap-south-1";
+    const bucketName = Deno.env.get("S3_BUCKET_NAME") || "designsnapper-uploads";
 
-    // Store in KV with a 1-hour expiration (simulated via timestamp check later if needed)
-    await kv.set(key, {
-      image,
-      expiresAt: Date.now() + 3600000
+    if (!accessKeyId || !secretAccessKey) {
+      console.error("Missing AWS credentials in environment");
+      return c.json({ error: "Server configuration error: AWS credentials not set. Please add AWS_ACCESS_KEY_ID and AWS_SECRET_ACCESS_KEY to Supabase Edge Function secrets." }, 500);
+    }
+
+    const s3Client = new S3Client({
+      region,
+      credentials: {
+        accessKeyId,
+        secretAccessKey,
+      },
     });
 
-    return c.json({ uploadId });
+    // Prepare File
+    const base64Data = image.split(',')[1] || image;
+    const binaryData = Uint8Array.from(atob(base64Data), c => c.charCodeAt(0));
+    const uploadId = crypto.randomUUID();
+    const key = `plugin-uploads/${uploadId}.png`;
+
+    // Upload to S3
+    const command = new PutObjectCommand({
+      Bucket: bucketName,
+      Key: key,
+      Body: binaryData,
+      ContentType: "image/png",
+    });
+
+    await s3Client.send(command);
+
+    // Generate presigned URL (valid for 1 hour) since bucket has Block Public Access
+    const getCommand = new GetObjectCommand({ Bucket: bucketName, Key: key });
+    const s3Url = await getSignedUrl(s3Client, getCommand, { expiresIn: 3600 });
+
+    return c.json({ uploadId, url: s3Url });
   } catch (error) {
     console.error("Plugin upload error:", error);
     return c.json({ error: "Failed to upload image" }, 500);
