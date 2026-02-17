@@ -357,9 +357,11 @@ export function UploadPage({ onNavigate, data, session, onSignOut }: UploadPageP
 
     // Load all images
     const imageObjects = await Promise.all(images.map(src => {
-      return new Promise<HTMLImageElement>((resolve) => {
+      return new Promise<HTMLImageElement>((resolve, reject) => {
         const img = new Image();
+        img.crossOrigin = "anonymous"; // Enable CORS to prevent tainted canvas
         img.onload = () => resolve(img);
+        img.onerror = () => reject(new Error(`Failed to load image: ${src}`));
         img.src = src;
       });
     }));
@@ -401,6 +403,7 @@ export function UploadPage({ onNavigate, data, session, onSignOut }: UploadPageP
   const downsampleImage = (dataUrl: string, maxWidth: number, maxHeight: number = 7500): Promise<string> => {
     return new Promise((resolve) => {
       const img = new Image();
+      img.crossOrigin = "anonymous"; // Enable CORS
       img.onload = () => {
         const canvas = document.createElement('canvas');
         let width = img.width;
