@@ -263,45 +263,8 @@ export function UploadPage({ onNavigate, data, session, onSignOut }: UploadPageP
       if (imageUrl) {
         setIsImageLoading(true);
         try {
-          // Fetch the S3 image and convert to data URL to avoid cross-origin canvas taint
-          // If direct fetch fails (CORS), try to fallback to proxy if it's an S3 URL
-          let blob;
-          try {
-            const response = await fetch(imageUrl);
-            if (!response.ok) throw new Error("Direct fetch failed");
-            blob = await response.blob();
-          } catch (directError) {
-            console.warn("Direct fetch failed (CORS?), trying proxy fallback...");
-            // Fallback: try to Proxy if it matches known S3 pattern
-            const match = imageUrl.match(/plugin-uploads\/([a-f0-9-]{36})\.png/);
-            if (match && match[1]) {
-              const fallbackId = match[1];
-              const proxyResponse = await fetch(`https://${projectId}.supabase.co/functions/v1/make-server-cdc57b20/plugin-upload/${fallbackId}`, {
-                headers: { 'Authorization': `Bearer ${publicAnonKey}` }
-              });
-
-              if (proxyResponse.ok) {
-                const data = await proxyResponse.json();
-                if (data.image) {
-                  setUploadedImages(prev => [...prev, data.image]);
-                  toast.success("Design imported from Figma plugin");
-                  // Clean URL
-                  const newUrl = window.location.pathname;
-                  window.history.replaceState({}, '', newUrl);
-                  return; // Done
-                }
-              }
-            }
-            throw directError; // Re-throw if proxy failed
-          }
-
-          const dataUrl = await new Promise<string>((resolve, reject) => {
-            const reader = new FileReader();
-            reader.onloadend = () => resolve(reader.result as string);
-            reader.onerror = reject;
-            reader.readAsDataURL(blob);
-          });
-          setUploadedImages(prev => [...prev, dataUrl]);
+          // Direct image URL (e.g. from Supabase Storage)
+          setUploadedImages(prev => [...prev, imageUrl]);
           toast.success("Design imported from Figma plugin");
 
           // Clean URL
@@ -309,7 +272,7 @@ export function UploadPage({ onNavigate, data, session, onSignOut }: UploadPageP
           window.history.replaceState({}, '', newUrl);
         } catch (e) {
           console.error("Failed to load image from URL:", e);
-          toast.error("Failed to load image from Figma. Please try uploading manually.");
+          toast.error("Failed to load image");
         } finally {
           setIsImageLoading(false);
         }
@@ -338,7 +301,6 @@ export function UploadPage({ onNavigate, data, session, onSignOut }: UploadPageP
           }
         } catch (e) {
           console.error("Failed to fetch plugin upload:", e);
-          toast.error("Failed to load image from Figma. Please try uploading manually.");
         } finally {
           setIsImageLoading(false);
         }
@@ -397,7 +359,6 @@ export function UploadPage({ onNavigate, data, session, onSignOut }: UploadPageP
     const imageObjects = await Promise.all(images.map(src => {
       return new Promise<HTMLImageElement>((resolve) => {
         const img = new Image();
-        img.crossOrigin = 'anonymous';
         img.onload = () => resolve(img);
         img.src = src;
       });
@@ -440,7 +401,6 @@ export function UploadPage({ onNavigate, data, session, onSignOut }: UploadPageP
   const downsampleImage = (dataUrl: string, maxWidth: number, maxHeight: number = 7500): Promise<string> => {
     return new Promise((resolve) => {
       const img = new Image();
-      img.crossOrigin = 'anonymous';
       img.onload = () => {
         const canvas = document.createElement('canvas');
         let width = img.width;
