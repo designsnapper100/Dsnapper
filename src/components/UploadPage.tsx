@@ -263,8 +263,16 @@ export function UploadPage({ onNavigate, data, session, onSignOut }: UploadPageP
       if (imageUrl) {
         setIsImageLoading(true);
         try {
-          // Direct image URL (e.g. from Supabase Storage)
-          setUploadedImages(prev => [...prev, imageUrl]);
+          // Fetch the S3 image and convert to data URL to avoid cross-origin canvas taint
+          const response = await fetch(imageUrl);
+          const blob = await response.blob();
+          const dataUrl = await new Promise<string>((resolve, reject) => {
+            const reader = new FileReader();
+            reader.onloadend = () => resolve(reader.result as string);
+            reader.onerror = reject;
+            reader.readAsDataURL(blob);
+          });
+          setUploadedImages(prev => [...prev, dataUrl]);
           toast.success("Design imported from Figma plugin");
 
           // Clean URL
@@ -272,7 +280,7 @@ export function UploadPage({ onNavigate, data, session, onSignOut }: UploadPageP
           window.history.replaceState({}, '', newUrl);
         } catch (e) {
           console.error("Failed to load image from URL:", e);
-          toast.error("Failed to load image");
+          toast.error("Failed to load image from Figma. Please try uploading manually.");
         } finally {
           setIsImageLoading(false);
         }
@@ -359,6 +367,7 @@ export function UploadPage({ onNavigate, data, session, onSignOut }: UploadPageP
     const imageObjects = await Promise.all(images.map(src => {
       return new Promise<HTMLImageElement>((resolve) => {
         const img = new Image();
+        img.crossOrigin = 'anonymous';
         img.onload = () => resolve(img);
         img.src = src;
       });
@@ -401,6 +410,7 @@ export function UploadPage({ onNavigate, data, session, onSignOut }: UploadPageP
   const downsampleImage = (dataUrl: string, maxWidth: number, maxHeight: number = 7500): Promise<string> => {
     return new Promise((resolve) => {
       const img = new Image();
+      img.crossOrigin = 'anonymous';
       img.onload = () => {
         const canvas = document.createElement('canvas');
         let width = img.width;
