@@ -26,9 +26,12 @@ import {
 } from 'lucide-react';
 import { ImageWithFallback } from './figma/ImageWithFallback';
 import { analyzeScreenshotWithAI } from '../utils/aiAnalysis';
+import { HistoryList } from './HistoryList';
+import { saveAudit } from '../utils/supabase/database';
+import { uploadAuditImage } from '../utils/supabase/storage';
 import { DndProvider, useDrag, useDrop } from 'react-dnd';
 import { HTML5Backend } from 'react-dnd-html5-backend';
-import { toast } from 'sonner@2.0.3';
+import { toast } from 'sonner';
 import { projectId, publicAnonKey } from '../utils/supabase/info';
 
 import chrisDoImg from 'figma:asset/f06118d2873dad45c5862ba420d01cbfc1b6e927.png';
@@ -164,6 +167,7 @@ export function UploadPage({ onNavigate, data, session, onSignOut }: UploadPageP
   const [error, setError] = useState<string | null>(null);
   const [analysisMode, setAnalysisMode] = useState<'technical-only' | 'with-influencer'>(data?.mode || 'technical-only');
   const [selectedPersona, setSelectedPersona] = useState<string>(data?.selectedPersona || 'chris-do');
+  const [view, setView] = useState<'new' | 'history'>('new');
 
   const [selectedCriteria, setSelectedCriteria] = useState<{
     visual: string[];
@@ -483,6 +487,24 @@ export function UploadPage({ onNavigate, data, session, onSignOut }: UploadPageP
         influencerReview: result.influencerReview
       };
 
+      if (session) {
+        try {
+          // Upload image and save audit in background
+          const imageUrl = await uploadAuditImage(stitchedImage, session.user.id);
+          if (imageUrl) {
+            await saveAudit(
+              session.user.id,
+              analysisData,
+              imageUrl,
+              analysisContext || `Design Audit ${new Date().toLocaleDateString()}`
+            );
+          }
+        } catch (err) {
+          console.error('Failed to save audit history:', err);
+          // Don't fail the user flow, just log it
+        }
+      }
+
       setTimeout(() => {
         setIsAnalyzing(false);
         onNavigate('dashboard', analysisData);
@@ -539,8 +561,36 @@ export function UploadPage({ onNavigate, data, session, onSignOut }: UploadPageP
 
         <div className="max-w-4xl mx-auto px-6 py-16">
           {!isAnalyzing ? (
-            <div className="flex flex-col items-center">
-              {currentStep === 'upload' ? (
+            <div className="flex flex-col items-center w-full">
+              {session && (
+                <div className="w-full max-w-lg mb-8 p-1 bg-slate-100/80 backdrop-blur-sm border border-slate-200 rounded-xl grid grid-cols-2 gap-1">
+                  <button
+                    onClick={() => setView('new')}
+                    className={`py-2.5 rounded-lg text-sm font-bold transition-all ${view === 'new' ? 'bg-white shadow-sm text-slate-900 ring-1 ring-black/5' : 'text-slate-500 hover:text-slate-700 hover:bg-slate-200/50'}`}
+                  >
+                    New Audit
+                  </button>
+                  <button
+                    onClick={() => setView('history')}
+                    className={`py-2.5 rounded-lg text-sm font-bold transition-all ${view === 'history' ? 'bg-white shadow-sm text-slate-900 ring-1 ring-black/5' : 'text-slate-500 hover:text-slate-700 hover:bg-slate-200/50'}`}
+                  >
+                    History
+                  </button>
+                </div>
+              )}
+
+              {view === 'history' && session ? (
+                <div className="w-full max-w-6xl">
+                  <HistoryList
+                    userId={session.user.id}
+                    onSelectAudit={(audit) => {
+                      if (audit.analysis_data) {
+                        onNavigate('dashboard', audit.analysis_data);
+                      }
+                    }}
+                  />
+                </div>
+              ) : currentStep === 'upload' ? (
                 <>
                   <div className="text-center mb-12 space-y-4">
                     <h1 className="text-4xl md:text-5xl font-black text-slate-900 tracking-tight leading-tight">
