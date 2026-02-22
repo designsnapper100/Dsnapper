@@ -101,7 +101,7 @@ export function PricingPage({ onNavigate, session }: PricingPageProps) {
                 { text: '24/7 Priority Support' },
             ],
             icon: <Crown className="w-6 h-6" style={{ color: '#f59e0b' }} />,
-            buttonText: 'Coming Soon',
+            buttonText: 'Contact Us',
             isBestValue: true,
             bgIcon: '',
             borderColor: 'border-slate-100',
@@ -114,7 +114,8 @@ export function PricingPage({ onNavigate, session }: PricingPageProps) {
     const handleUpgrade = (tierId: string) => {
         if (tierId === 'starter') return;
         if (tierId === 'elite') {
-            toast.info('Elite plan is coming soon!');
+            window.location.href = 'mailto:hello@designsnapper.com';
+            toast.info('Please contact us to upgrade to the Elite plan!');
             return;
         }
 
@@ -280,7 +281,7 @@ export function PricingPage({ onNavigate, session }: PricingPageProps) {
                         )}
                         {tier.isBestValue && (
                             <div className="absolute -top-3.5 left-1/2 -translate-x-1/2 z-20 px-4 py-1 rounded-full text-[10px] font-black tracking-widest uppercase text-white bg-slate-900 shadow-lg whitespace-nowrap border border-slate-700">
-                                COMING SOON
+                                CONTACT US
                             </div>
                         )}
 
@@ -335,8 +336,8 @@ export function PricingPage({ onNavigate, session }: PricingPageProps) {
                             {/* Action Button */}
                             <button
                                 onClick={() => handleUpgrade(tier.id)}
-                                disabled={tier.isFree || paymentLoading || tier.id === 'elite'}
-                                className={`w-full h-14 rounded-2xl font-black text-xs uppercase tracking-widest transition-all active:scale-95 mt-auto ${tier.buttonStyle} ${(paymentLoading && tier.id === 'pro') ? 'opacity-60 cursor-wait' : ''} ${tier.id === 'elite' ? 'opacity-50 cursor-not-allowed' : ''}`}
+                                disabled={tier.isFree || paymentLoading}
+                                className={`w-full h-14 rounded-2xl font-black text-xs uppercase tracking-widest transition-all active:scale-95 mt-auto ${tier.buttonStyle} ${(paymentLoading && tier.id === 'pro') ? 'opacity-60 cursor-wait' : ''}`}
                             >
                                 {tier.buttonText}
                             </button>
