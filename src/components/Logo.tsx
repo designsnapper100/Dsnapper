@@ -1,4 +1,4 @@
-import React from 'react';
+import logoUrl from '../assets/logo-image.png';
 
 interface LogoProps {
     className?: string;
@@ -7,31 +7,23 @@ interface LogoProps {
     showText?: boolean;
 }
 
-export function Logo({ className = '', size = 'md', variant = 'dark', showText = true }: LogoProps) {
-    // Always use the dark pill look to match the provided reference perfectly
-    const bgClass = 'bg-zinc-950 text-white';
-
-    // Scale tracking and sizing based on md standard
+export function Logo({ className = '', size = 'md' }: LogoProps) {
     const sizeConfig = {
-        sm: 'text-sm',
-        md: 'text-xl',
-        lg: 'text-3xl',
-        xl: 'text-5xl',
+        sm: 'h-6',
+        md: 'h-8',
+        lg: 'h-10',
+        xl: 'h-12',
     };
 
-    const currentSize = sizeConfig[size];
-    const textStr = showText ? "Design Snapper." : "Snapper.";
+    const currentHeight = sizeConfig[size];
 
     return (
-        <div
-            className={`inline-flex items-center justify-center font-sans font-[900] tracking-tight select-none cursor-pointer ${bgClass} ${currentSize} ${className}`}
-            style={{
-                borderRadius: '0.4em',
-                padding: '0.2rem 0.5em',
-                lineHeight: '1.1', // slightly above 1 to accommodate p descenders naturally
-            }}
-        >
-            {textStr}
+        <div className={`flex items-center ${className}`}>
+            <img
+                src={logoUrl}
+                alt="Design Snapper Logo"
+                className={`${currentHeight} w-auto object-contain shrink-0 drop-shadow-sm`}
+            />
         </div>
     );
 }
