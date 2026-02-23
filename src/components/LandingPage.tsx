@@ -5,6 +5,7 @@ import { motion } from 'motion/react';
 import { ImageWithFallback } from './figma/ImageWithFallback';
 import type { Session } from '@supabase/supabase-js';
 import { UserProfileMenu } from './UserProfileMenu';
+import { Logo } from './Logo';
 import { SEO } from './SEO';
 
 import saasMockup from 'figma:asset/59f7c40d3db6dd1bd00dec669d25e2bff24a123c.png';
@@ -408,12 +409,7 @@ export function LandingPage({ onNavigate, session, onSignOut }: LandingPageProps
         className="relative z-50 border-b border-slate-100/50 bg-white/70 backdrop-blur-2xl"
       >
         <div className="max-w-7xl mx-auto px-6 py-5 flex justify-between items-center">
-          <div className="flex items-center gap-3">
-            <div className="w-10 h-10 bg-slate-900 rounded-[14px] flex items-center justify-center shadow-xl rotate-[-2deg]">
-              <Target className="w-6 h-6 text-white" />
-            </div>
-            <span className="font-black text-2xl tracking-tighter text-slate-900 uppercase italic">Design Snapper.</span>
-          </div>
+          <Logo size="lg" className="cursor-pointer" />
 
           {session && user ? (
             /* Logged-in state: Pricing link + Profile picture + name + dropdown */
@@ -769,11 +765,8 @@ export function LandingPage({ onNavigate, session, onSignOut }: LandingPageProps
         <div className="max-w-7xl mx-auto px-6">
           <div className="grid md:grid-cols-4 gap-12 mb-20">
             <div className="col-span-2">
-              <div className="flex items-center gap-2.5 mb-6">
-                <div className="w-8 h-8 bg-primary rounded-lg flex items-center justify-center">
-                  <Target className="w-4 h-4 text-white" />
-                </div>
-                <span className="font-bold text-lg text-slate-900">Design Snapper</span>
+              <div className="mb-6">
+                <Logo size="md" />
               </div>
               <p className="text-slate-500 text-sm max-w-xs font-medium leading-relaxed">
                 The world's first automated design audit platform for founders and product teams.

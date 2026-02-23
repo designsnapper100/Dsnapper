@@ -3,6 +3,7 @@ import { Check, Shield, Clock, Zap, ArrowLeft, Target, Rocket, Crown, X, Globe, 
 import { motion, AnimatePresence } from 'motion/react';
 import { useRazorpay } from '../hooks/useRazorpay';
 import { toast } from 'sonner';
+import { Logo } from './Logo';
 
 interface PricingPageProps {
     onNavigate: (screen: string, data?: any) => void;
@@ -211,9 +212,7 @@ export function PricingPage({ onNavigate, session }: PricingPageProps) {
             {/* Header Section */}
             <div className="w-full max-w-4xl text-center mb-16 mt-8 relative z-10">
                 <div className="flex flex-col items-center mb-6">
-                    <div className="w-12 h-12 bg-slate-900 rounded-[14px] flex items-center justify-center shadow-xl rotate-[-2deg] mb-4">
-                        <Target className="w-7 h-7 text-white" />
-                    </div>
+                    <Logo size="xl" className="mb-4" />
                     <h1 className="text-4xl md:text-5xl font-black text-slate-900 tracking-tighter uppercase italic">Pricing.</h1>
                 </div>
 

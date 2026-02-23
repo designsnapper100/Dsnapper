@@ -1,6 +1,7 @@
 import { useState, FormEvent } from 'react';
 import { supabase } from '../utils/supabase/client';
 import { Loader2, ArrowLeft, Target, Mail, Eye, EyeOff } from 'lucide-react';
+import { Logo } from './Logo';
 
 import { toast } from 'sonner';
 
@@ -140,32 +141,11 @@ export function AuthPage({ onNavigate }: AuthPageProps) {
             {/* Logo */}
             <div style={{
                 display: 'flex',
-                flexDirection: 'column',
                 alignItems: 'center',
-                gap: 12,
+                justifyContent: 'center',
                 marginBottom: 40,
             }}>
-                <div style={{
-                    width: 48,
-                    height: 48,
-                    background: '#0F172A',
-                    borderRadius: 14,
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    boxShadow: '0 8px 24px rgba(15,23,42,0.25)',
-                    transform: 'rotate(-2deg)',
-                }}>
-                    <Target size={24} color="white" />
-                </div>
-                <span style={{
-                    fontWeight: 900,
-                    fontSize: 20,
-                    letterSpacing: '-0.03em',
-                    color: '#0F172A',
-                    textTransform: 'uppercase',
-                    fontStyle: 'italic',
-                }}>Snapper.</span>
+                <Logo size="xl" />
             </div>
 
             {/* Auth Card */}

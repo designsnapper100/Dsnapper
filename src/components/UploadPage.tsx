@@ -1,6 +1,7 @@
 import { useState, useCallback, useRef, useEffect } from 'react';
 import { Button } from './ui/button';
 import { Progress } from './ui/progress';
+import { Logo } from './Logo';
 import {
   Plus,
   ArrowLeft,
@@ -622,10 +623,7 @@ export function UploadPage({ onNavigate, data, session, onSignOut, credits: cred
                 />
               )}
               <div className="hidden sm:flex items-center gap-2">
-                <div className="w-8 h-8 bg-slate-900 rounded-[10px] flex items-center justify-center shadow-lg">
-                  <Zap className="w-4.5 h-4.5 text-white" />
-                </div>
-                <span className="font-black text-lg tracking-tighter uppercase italic">Snapper.</span>
+                <Logo size="md" />
               </div>
               <UserProfileMenu session={session} onSignOut={onSignOut} onNavigate={onNavigate} />
             </div>

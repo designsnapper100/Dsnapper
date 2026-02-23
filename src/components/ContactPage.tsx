@@ -4,6 +4,7 @@ import { motion, AnimatePresence } from 'motion/react';
 import type { Session } from '@supabase/supabase-js';
 import { UserProfileMenu } from './UserProfileMenu';
 import { Button } from './ui/button';
+import { Logo } from './Logo';
 import { useRazorpay } from '../hooks/useRazorpay';
 import { toast } from 'sonner';
 import { supabase } from '../utils/supabase/client';
@@ -259,11 +260,8 @@ export function ContactPage({ onNavigate, session, onSignOut }: ContactPageProps
                 className="relative z-50 bg-[#FDFDFD]"
             >
                 <div className="max-w-7xl mx-auto px-6 py-5 flex justify-between items-center">
-                    <div className="flex items-center gap-3 cursor-pointer" onClick={() => onNavigate('landing')}>
-                        <div className="w-10 h-10 bg-slate-900 rounded-[14px] flex items-center justify-center shadow-xl rotate-[-2deg]">
-                            <Target className="w-6 h-6 text-white" />
-                        </div>
-                        <span className="font-black text-2xl tracking-tighter text-slate-900 uppercase italic">Design Snapper.</span>
+                    <div className="cursor-pointer" onClick={() => onNavigate('landing')}>
+                        <Logo size="lg" />
                     </div>
 
                     {session && user ? (
@@ -575,12 +573,7 @@ export function ContactPage({ onNavigate, session, onSignOut }: ContactPageProps
             {/* Basic Footer match */}
             <footer className="w-full relative z-10 border-t border-slate-100 bg-white py-12 px-6 mt-auto">
                 <div className="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center gap-6">
-                    <div className="flex items-center gap-2.5">
-                        <div className="w-8 h-8 bg-slate-900 rounded-lg flex items-center justify-center shadow-md rotate-[-2deg]">
-                            <Target className="w-4 h-4 text-white" />
-                        </div>
-                        <span className="font-black text-lg text-slate-900 uppercase italic">Design Snapper.</span>
-                    </div>
+                    <Logo size="md" />
 
                     <div className="flex flex-wrap items-center justify-center gap-6 text-[10px] font-black uppercase tracking-widest text-slate-400">
                         <a href="#" className="hover:text-slate-900 transition-colors">Home</a>

@@ -82,6 +82,7 @@ interface ChatMessage {
 }
 
 import { UserProfileMenu } from './UserProfileMenu';
+import { Logo } from './Logo';
 
 export function AnnotationDashboard({ onNavigate, data, session, onSignOut }: AnnotationDashboardProps) {
   const [selectedAnnotation, setSelectedAnnotation] = useState<number | null>(null);
@@ -322,7 +323,10 @@ export function AnnotationDashboard({ onNavigate, data, session, onSignOut }: An
 
       <nav className="border-b border-slate-200 bg-background sticky top-0 z-50" onClick={(e) => e.stopPropagation()}>
         <div className="max-w-full px-6 py-4 flex justify-between items-center">
-          <Button variant="ghost" onClick={() => onNavigate('upload')} className="flex items-center gap-2"><ArrowLeft className="w-4 h-4" />New</Button>
+          <div className="flex items-center gap-6">
+            <Logo size="sm" />
+            <Button variant="ghost" onClick={() => onNavigate('upload')} className="flex items-center gap-2"><ArrowLeft className="w-4 h-4" />New</Button>
+          </div>
           <div className="flex items-center gap-4">
             {data.influencerReview && <Badge variant="outline" className="bg-amber-50 text-amber-600 gap-1 border-amber-200/50"><Crown className="w-3 h-3" />{data.influencerReview.persona}</Badge>}
 
