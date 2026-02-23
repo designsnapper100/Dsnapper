@@ -8,8 +8,8 @@ interface LogoProps {
 }
 
 export function Logo({ className = '', size = 'md', variant = 'dark', showText = true }: LogoProps) {
-    const isDark = variant === 'dark';
-    const bgClass = isDark ? 'bg-zinc-950 text-white' : 'bg-white text-zinc-950 shadow-sm border border-slate-200';
+    // Always use the dark pill look to match the provided reference perfectly
+    const bgClass = 'bg-zinc-950 text-white';
 
     // Scale tracking and sizing based on md standard
     const sizeConfig = {
