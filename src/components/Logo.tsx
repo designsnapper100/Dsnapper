@@ -9,7 +9,7 @@ interface LogoProps {
 
 export function Logo({ className = '', size = 'md', variant = 'dark', showText = true }: LogoProps) {
     const isDark = variant === 'dark';
-    const bgClass = isDark ? 'bg-[#18181b] text-white' : 'bg-white text-[#18181b] shadow-sm border border-slate-200';
+    const bgClass = isDark ? 'bg-zinc-950 text-white' : 'bg-white text-zinc-950 shadow-sm border border-slate-200';
 
     // Scale tracking and sizing based on md standard
     const sizeConfig = {
