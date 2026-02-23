@@ -8,34 +8,46 @@ interface LogoProps {
 }
 
 export function Logo({ className = '', size = 'md', variant = 'dark', showText = true }: LogoProps) {
-    const sizeConfig = {
-        sm: { box: 'w-6 h-6 rounded-md', icon: 'text-sm', text: 'text-sm' },
-        md: { box: 'w-8 h-8 rounded-[10px]', icon: 'text-lg', text: 'text-lg' },
-        lg: { box: 'w-10 h-10 rounded-[14px]', icon: 'text-xl', text: 'text-2xl' },
-        xl: { box: 'w-12 h-12 rounded-2xl', icon: 'text-2xl', text: 'text-3xl' },
-    };
+    const isDark = variant === 'dark';
+    const bgClass = isDark ? 'bg-slate-900 border border-slate-900' : 'bg-white border border-slate-200 shadow-md';
+    const textClass = isDark ? 'text-white' : 'text-slate-900';
 
-    const themeConfig = {
-        dark: { box: 'bg-slate-900 text-white', text: 'text-slate-900' },
-        light: { box: 'bg-white text-slate-900 shadow-sm', text: 'text-white' },
+    // Scale classes for different sizes
+    const sizeConfig = {
+        sm: { py: 'py-0.5', px: 'px-2.5', text: 'text-[12px]' },
+        md: { py: 'py-1', px: 'px-3', text: 'text-base' },
+        lg: { py: 'py-2', px: 'px-5', text: 'text-2xl' },
+        xl: { py: 'py-2.5', px: 'px-6', text: 'text-4xl' },
     };
 
     const currentSize = sizeConfig[size];
-    const currentTheme = themeConfig[variant];
+    const textStr = showText ? "design snapper." : "ds.";
 
-    // We rotate slightly for that dynamic snap feel, and use 's.' as requested
     return (
-        <div className={`flex items-center gap-2.5 ${className}`}>
+        <div className={`relative inline-flex items-center justify-center cursor-pointer group ${currentSize.text} ${className}`}>
+            {/* The Slanted Background Container */}
             <div
-                className={`${currentSize.box} ${currentTheme.box} flex items-center justify-center shadow-lg rotate-[-2deg] shrink-0`}
+                className={`absolute inset-0 ${bgClass} -skew-x-[12deg] group-hover:-skew-x-[10deg] transition-all duration-300 ease-out origin-bottom-left`}
+                style={{
+                    borderTopLeftRadius: '0.15em',
+                    borderTopRightRadius: '0.15em',
+                    borderBottomRightRadius: '0.8em',
+                    borderBottomLeftRadius: '0.15em',
+                }}
+            />
+
+            {/* The Text overlay */}
+            <span
+                className={`relative z-10 font-['Poppins',_sans-serif] font-[900] italic ${textClass} ${currentSize.px} ${currentSize.py} tracking-tight leading-none lowercase select-none whitespace-nowrap`}
+                style={{
+                    // Nudge baseline for perfect optical centering
+                    paddingTop: '0.25em',
+                    paddingBottom: '0.15em',
+                    letterSpacing: '-0.04em',
+                }}
             >
-                <span className={`${currentSize.icon} font-black italic transform -translate-y-px`}>s.</span>
-            </div>
-            {showText && (
-                <span className={`font-black ${currentSize.text} tracking-tighter uppercase italic ${currentTheme.text}`}>
-                    Design Snapper.
-                </span>
-            )}
+                {textStr}
+            </span>
         </div>
     );
 }
