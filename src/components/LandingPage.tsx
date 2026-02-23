@@ -11,7 +11,7 @@ import { SEO } from './SEO';
 import saasMockup from 'figma:asset/59f7c40d3db6dd1bd00dec669d25e2bff24a123c.png';
 
 interface LandingPageProps {
-  onNavigate: (screen: 'landing' | 'upload' | 'dashboard' | 'report' | 'auth' | 'pricing', data?: any) => void;
+  onNavigate: (screen: 'landing' | 'upload' | 'dashboard' | 'report' | 'auth' | 'pricing' | 'contact', data?: any) => void;
   session?: Session | null;
   onSignOut?: () => void;
 }
@@ -776,9 +776,9 @@ export function LandingPage({ onNavigate, session, onSignOut }: LandingPageProps
             <div>
               <h5 className="font-bold text-sm mb-6 uppercase tracking-widest text-slate-400">Product</h5>
               <ul className="space-y-4 text-sm text-slate-500 font-medium">
-                <li><a href="#" className="hover:text-slate-900 transition-colors">Features</a></li>
-                <li><a href="#" className="hover:text-slate-900 transition-colors">API Access</a></li>
-                <li><a href="#" className="hover:text-slate-900 transition-colors">Integration</a></li>
+                <li><a href="#" onClick={(e) => { e.preventDefault(); onNavigate('upload'); }} className="hover:text-slate-900 transition-colors cursor-pointer">Upload Design</a></li>
+                <li><a href="#" onClick={(e) => { e.preventDefault(); onNavigate('pricing'); }} className="hover:text-slate-900 transition-colors cursor-pointer">Pricing</a></li>
+                <li><a href="#" onClick={(e) => { e.preventDefault(); onNavigate('contact'); }} className="hover:text-slate-900 transition-colors cursor-pointer">Contact Us</a></li>
               </ul>
             </div>
             <div>
