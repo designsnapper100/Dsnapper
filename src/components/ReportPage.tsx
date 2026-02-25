@@ -1,4 +1,5 @@
 import { useState, useRef, useEffect, useMemo } from 'react';
+import { Logo } from './Logo';
 import { Button } from './ui/button';
 import { Card } from './ui/card';
 import { Badge } from './ui/badge';
@@ -16,7 +17,6 @@ import {
   Sparkles,
   Share2,
   Loader2,
-  Flame,
   Printer,
   Crown,
   Quote,
@@ -140,14 +140,17 @@ export function ReportPage({ onNavigate, data }: ReportPageProps) {
       {/* Navigation */}
       <nav className="border-b border-slate-200 bg-white print:hidden sticky top-0 z-50 shadow-sm">
         <div className="max-w-6xl mx-auto px-6 py-3 flex justify-between items-center">
-          <Button
-            variant="ghost"
-            onClick={() => onNavigate('dashboard', data)}
-            className="flex items-center gap-2 text-slate-600"
-          >
-            <ArrowLeft className="w-4 h-4" />
-            Dashboard
-          </Button>
+          <div className="flex items-center gap-4">
+            <Logo size="sm" />
+            <Button
+              variant="ghost"
+              onClick={() => onNavigate('dashboard', data)}
+              className="flex items-center gap-2 text-slate-600"
+            >
+              <ArrowLeft className="w-4 h-4" />
+              Dashboard
+            </Button>
+          </div>
           <div className="flex gap-2">
             <Button variant="outline" size="sm" onClick={handleShare} disabled={isSharing}>
               {isSharing ? <Loader2 className="w-4 h-4 animate-spin" /> : <Share2 className="w-4 h-4 mr-2" />}
@@ -169,9 +172,7 @@ export function ReportPage({ onNavigate, data }: ReportPageProps) {
           {/* Header Section */}
           <div className="flex justify-between items-center mb-10 border-b border-slate-100 pb-8">
             <div className="flex items-center gap-4">
-              <div className="w-12 h-12 bg-slate-900 rounded-2xl flex items-center justify-center shadow-xl">
-                <Flame className="w-7 h-7 text-orange-500" />
-              </div>
+              <Logo size="lg" />
               <div>
                 <h1 className="text-2xl font-black tracking-tight uppercase text-slate-900">Design Diagnostic Report</h1>
                 <p className="text-[11px] text-slate-400 font-bold uppercase tracking-[0.2em] leading-none">Automated Spectral Analysis</p>
