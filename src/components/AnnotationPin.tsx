@@ -7,7 +7,7 @@ interface Annotation {
   id: number;
   x: number;
   y: number;
-  category: 'visual' | 'business' | 'heuristic' | 'contrast' | 'accessibility' | 'accessibility';
+  category: 'visual' | 'business' | 'heuristic' | 'contrast';
   tag: string;
   severity: 'critical' | 'minor';
   title: string;
