@@ -42,7 +42,7 @@ interface Annotation {
   id: number;
   x: number;
   y: number;
-  category: 'visual' | 'business' | 'heuristic' | 'contrast';
+  category: 'visual' | 'business' | 'heuristic' | 'contrast' | 'accessibility';
   tag: string;
   severity: 'critical' | 'minor';
   title: string;
@@ -434,11 +434,12 @@ export function AnnotationDashboard({ onNavigate, data, session, onSignOut }: An
                 <div className="p-6 pb-0">
                   <h2 className="text-lg font-semibold mb-4">Issue Log</h2>
                   <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full mb-4">
-                    <TabsList className="grid w-full grid-cols-4">
+                    <TabsList className="grid w-full grid-cols-5">
                       <TabsTrigger value="all" className="text-[9px] uppercase font-bold">All</TabsTrigger>
                       <TabsTrigger value="visual" className="text-[9px] uppercase font-bold">Visual</TabsTrigger>
                       <TabsTrigger value="business" className="text-[9px] uppercase font-bold">Business</TabsTrigger>
                       <TabsTrigger value="heuristic" className="text-[9px] uppercase font-bold">Heuristic</TabsTrigger>
+                      <TabsTrigger value="accessibility" className="text-[9px] uppercase font-bold">Access</TabsTrigger>
                     </TabsList>
                   </Tabs>
                 </div>

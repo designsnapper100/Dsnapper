@@ -45,6 +45,7 @@ export async function analyzeScreenshotWithAI(
       visual: string[];
       business: string[];
       heuristic: string[];
+      accessibility: string[];
     };
     accessToken?: string;
   }

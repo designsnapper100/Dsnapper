@@ -244,9 +244,8 @@ export default function App() {
   const renderScreen = () => {
     if (isLoading) {
       return (
-        <div className="min-h-screen flex flex-col items-center justify-center gap-4 bg-background">
+        <div className="min-h-screen flex items-center justify-center bg-background">
           <Loader2 className="w-10 h-10 animate-spin text-primary" />
-          <p className="text-muted-foreground font-medium">Loading analysis report...</p>
         </div>
       );
     }

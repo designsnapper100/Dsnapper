@@ -181,15 +181,17 @@ export function UploadPage({ onNavigate, data, session, onSignOut, credits: cred
     visual: string[];
     business: string[];
     heuristic: string[];
+    accessibility: string[];
   }>({
-    visual: ['Hierarchy', 'Consistency', 'Spacing', 'Contrast', 'Balance'],
-    business: ['Conversion', 'Clarity', 'Trust', 'Efficiency', 'Differentiation'],
-    heuristic: ['Visibility', 'Prevention', 'Control', 'Recognition', 'Feedback']
+    visual: ['Hierarchy', 'Consistency', 'Spacing', 'Contrast & Accessibility', 'Visual Weight', 'Typography Scale'],
+    business: ['Conversion', 'Clarity (Value Prop)', 'Trust Signals', 'Efficiency (Flow)', 'Visual Identity', 'CTA Clarity', 'Cognitive Load'],
+    heuristic: ['Visibility (Status)', 'Error Prevention', 'Control (Freedom)', 'Recognition vs Recall', 'System Feedback', 'Real World Match', 'Minimalist Design', 'Flexibility'],
+    accessibility: ['Color Contrast Ratio', 'Touch Target Size', 'Text Legibility', 'Focus States']
   });
 
   const fileInputRef = useRef<HTMLInputElement>(null);
 
-  const toggleCriterion = (category: 'visual' | 'business' | 'heuristic', criterion: string) => {
+  const toggleCriterion = (category: 'visual' | 'business' | 'heuristic' | 'accessibility', criterion: string) => {
     setSelectedCriteria(prev => {
       const current = prev[category];
       const next = current.includes(criterion)
@@ -581,7 +583,8 @@ export function UploadPage({ onNavigate, data, session, onSignOut, credits: cred
   const isCriteriaValid = () => {
     return selectedCriteria.visual.length > 0 ||
       selectedCriteria.business.length > 0 ||
-      selectedCriteria.heuristic.length > 0;
+      selectedCriteria.heuristic.length > 0 ||
+      selectedCriteria.accessibility.length > 0;
   };
 
   return (

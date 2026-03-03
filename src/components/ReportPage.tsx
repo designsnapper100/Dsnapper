@@ -32,7 +32,7 @@ interface Annotation {
   id: number;
   x: number;
   y: number;
-  type: 'accessibility' | 'usability' | 'consistency' | 'visual' | 'marketing';
+  category: 'visual' | 'business' | 'heuristic' | 'contrast' | 'accessibility';
   severity: 'critical' | 'minor';
   title: string;
   current: string;
@@ -118,8 +118,8 @@ export function ReportPage({ onNavigate, data }: ReportPageProps) {
     }
   };
 
-  const getTypeIcon = (type: string) => {
-    switch (type) {
+  const getCategoryIcon = (category: string) => {
+    switch (category) {
       case 'accessibility': return <Accessibility className="w-3 h-3" />;
       case 'usability': return <Eye className="w-3 h-3" />;
       case 'consistency': return <Layout className="w-3 h-3" />;
@@ -352,7 +352,7 @@ export function ReportPage({ onNavigate, data }: ReportPageProps) {
                     <div className="flex-1 min-w-0">
                       <div className="flex items-center gap-3 mb-2">
                         <h4 className="text-base font-bold text-slate-900 truncate leading-tight">{ann.title}</h4>
-                        <div className="shrink-0 opacity-50">{getTypeIcon(ann.type)}</div>
+                        <div className="shrink-0 opacity-50">{getCategoryIcon(ann.category)}</div>
                         <Badge variant={ann.severity === 'critical' ? 'destructive' : 'secondary'} className="text-[8px] h-4 uppercase font-black px-1.5 ml-auto tracking-tighter">
                           {ann.severity}
                         </Badge>
