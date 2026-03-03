@@ -1,0 +1,330 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Design Audit Tool – Automated Design Audit | Design Snapper</title>
+    <meta name="description"
+        content="Run a complete design audit in under 30 seconds. Design Snapper's AI design audit tool checks WCAG compliance, visual hierarchy, UX issues, and accessibility automatically. Free to start." />
+    <meta name="keywords"
+        content="design audit, design audit tool, automated design audit, ui design audit, ux design audit, design audit software, design snapper, design review" />
+    <link rel="canonical" href="https://www.designsnapper.com/design-audit/" />
+    <meta property="og:title" content="Design Audit Tool – Automated Design Audit | Design Snapper" />
+    <meta property="og:description"
+        content="Run a complete design audit in under 30 seconds with Design Snapper's AI-powered design audit tool." />
+    <meta property="og:url" content="https://www.designsnapper.com/design-audit/" />
+    <meta property="og:type" content="website" />
+    <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebPage",
+    "name": "Design Audit Tool",
+    "description": "Automated design audit tool powered by AI. Check WCAG compliance, visual hierarchy, UX issues and accessibility instantly.",
+    "url": "https://www.designsnapper.com/design-audit/",
+    "isPartOf": {
+      "@type": "WebSite",
+      "name": "Design Snapper",
+      "url": "https://www.designsnapper.com"
+    },
+    "breadcrumb": {
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        { "@type": "ListItem", "position": 1, "name": "Design Snapper", "item": "https://www.designsnapper.com" },
+        { "@type": "ListItem", "position": 2, "name": "Design Audit", "item": "https://www.designsnapper.com/design-audit/" }
+      ]
+    }
+  }
+  </script>
+    <style>
+        *,
+        *::before,
+        *::after {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+            background: #FDFDFD;
+            color: #0f172a;
+            line-height: 1.6;
+        }
+
+        nav {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 20px 48px;
+            border-bottom: 1px solid #f1f5f9;
+            background: #fff;
+        }
+
+        nav a {
+            text-decoration: none;
+            color: #0f172a;
+            font-weight: 900;
+            font-size: 1.1rem;
+            letter-spacing: -0.02em;
+        }
+
+        .btn {
+            display: inline-block;
+            background: #0f172a;
+            color: #fff;
+            padding: 14px 32px;
+            border-radius: 999px;
+            font-weight: 700;
+            text-decoration: none;
+            font-size: 0.95rem;
+            transition: opacity 0.2s;
+        }
+
+        .btn:hover {
+            opacity: 0.85;
+        }
+
+        .btn-outline {
+            background: transparent;
+            border: 2px solid #0f172a;
+            color: #0f172a;
+            margin-left: 12px;
+        }
+
+        hero {
+            display: block;
+            max-width: 860px;
+            margin: 80px auto;
+            padding: 0 24px;
+            text-align: center;
+        }
+
+        h1 {
+            font-size: clamp(2.5rem, 6vw, 5rem);
+            font-weight: 900;
+            letter-spacing: -0.04em;
+            line-height: 1;
+            margin-bottom: 24px;
+        }
+
+        h1 span {
+            color: #94a3b8;
+        }
+
+        .subtitle {
+            font-size: 1.2rem;
+            color: #64748b;
+            max-width: 600px;
+            margin: 0 auto 40px;
+        }
+
+        .ctas {
+            display: flex;
+            gap: 12px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .features {
+            max-width: 1100px;
+            margin: 80px auto;
+            padding: 0 24px;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+            gap: 24px;
+        }
+
+        .card {
+            background: #fff;
+            border: 1px solid #e2e8f0;
+            border-radius: 24px;
+            padding: 36px;
+        }
+
+        .card h3 {
+            font-size: 1.15rem;
+            font-weight: 800;
+            margin-bottom: 10px;
+        }
+
+        .card p {
+            color: #64748b;
+            font-size: 0.95rem;
+        }
+
+        .badge {
+            display: inline-block;
+            background: #eff6ff;
+            color: #3b82f6;
+            font-size: 0.7rem;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            padding: 4px 10px;
+            border-radius: 999px;
+            margin-bottom: 14px;
+        }
+
+        section.content {
+            max-width: 800px;
+            margin: 0 auto 80px;
+            padding: 0 24px;
+        }
+
+        section.content h2 {
+            font-size: clamp(1.8rem, 4vw, 2.8rem);
+            font-weight: 900;
+            letter-spacing: -0.03em;
+            margin-bottom: 16px;
+        }
+
+        section.content p {
+            color: #475569;
+            margin-bottom: 20px;
+            font-size: 1rem;
+        }
+
+        .faq {
+            max-width: 800px;
+            margin: 0 auto 80px;
+            padding: 0 24px;
+        }
+
+        .faq h2 {
+            font-size: 2rem;
+            font-weight: 900;
+            margin-bottom: 32px;
+        }
+
+        .faq-item {
+            border-top: 1px solid #e2e8f0;
+            padding: 24px 0;
+        }
+
+        .faq-item h3 {
+            font-size: 1rem;
+            font-weight: 700;
+            margin-bottom: 8px;
+        }
+
+        .faq-item p {
+            color: #64748b;
+            font-size: 0.95rem;
+        }
+
+        footer {
+            border-top: 1px solid #f1f5f9;
+            padding: 32px 48px;
+            text-align: center;
+            font-size: 0.85rem;
+            color: #94a3b8;
+        }
+
+        footer a {
+            color: #0f172a;
+            font-weight: 700;
+            text-decoration: none;
+        }
+    </style>
+</head>
+
+<body>
+    <nav>
+        <a href="https://www.designsnapper.com">Snapper.</a>
+        <div>
+            <a href="https://www.designsnapper.com/pricing"
+                style="margin-right:24px;font-weight:700;font-size:0.85rem;color:#64748b;text-decoration:none;">Pricing</a>
+            <a href="https://www.designsnapper.com" class="btn">Start Free Audit</a>
+        </div>
+    </nav>
+
+    <hero>
+        <div class="badge">AI-Powered Design Audit</div>
+        <h1>The Design Audit Tool<br /><span>Built for Speed.</span></h1>
+        <p class="subtitle">Design Snapper runs a complete design audit on your UI in under 30 seconds — catching WCAG
+            failures, UX issues, and visual hierarchy problems automatically.</p>
+        <div class="ctas">
+            <a href="https://www.designsnapper.com" class="btn">Run a Free Design Audit →</a>
+            <a href="https://www.designsnapper.com" class="btn btn-outline">View Demo</a>
+        </div>
+    </hero>
+
+    <div class="features">
+        <div class="card">
+            <h3>🔍 What is a Design Audit?</h3>
+            <p>A design audit is a systematic review of your UI against accessibility standards, usability heuristics,
+                and visual design principles. Design Snapper automates this entire process with AI.</p>
+        </div>
+        <div class="card">
+            <h3>⚡ Instant WCAG Design Audit</h3>
+            <p>Our AI design audit engine checks every screen against WCAG 2.1 AA standards — contrast ratios, touch
+                targets, ARIA labels — and flags every failure instantly.</p>
+        </div>
+        <div class="card">
+            <h3>📊 Visual Hierarchy Audit</h3>
+            <p>Design Snapper's design audit tool identifies layout weaknesses, spacing inconsistencies, and typography
+                issues that harm comprehension and conversion.</p>
+        </div>
+        <div class="card">
+            <h3>📄 Exportable Audit Reports</h3>
+            <p>Every design audit generates a comprehensive, shareable report with prioritized issues and specific fix
+                recommendations — ready to share with your team or stakeholders.</p>
+        </div>
+    </div>
+
+    <section class="content">
+        <h2>How to Run a Design Audit with Design Snapper</h2>
+        <p>Running a professional design audit used to take hours. With Design Snapper, it takes 30 seconds. Upload any
+            screenshot, Figma export, or paste a live URL, and our AI instantly performs a full design audit covering:
+        </p>
+        <ul style="margin-left:24px;color:#475569;margin-bottom:20px;">
+            <li style="margin-bottom:8px;"><strong>Accessibility audit</strong> — WCAG 2.1 contrast, touch targets, ARIA
+                states</li>
+            <li style="margin-bottom:8px;"><strong>Visual hierarchy analysis</strong> — layout structure, spacing,
+                typography</li>
+            <li style="margin-bottom:8px;"><strong>UX heuristics check</strong> — cognitive load, affordances,
+                consistency</li>
+            <li style="margin-bottom:8px;"><strong>Predictive attention heatmap</strong> — where users will look first
+            </li>
+        </ul>
+        <p>Design Snapper is the best design audit tool for product teams, startups, and solo designers who need fast,
+            objective, and actionable feedback without expensive design consultants.</p>
+        <div style="margin-top:32px;">
+            <a href="https://www.designsnapper.com" class="btn">Start Your Free Design Audit →</a>
+        </div>
+    </section>
+
+    <div class="faq">
+        <h2>Design Audit FAQ</h2>
+        <div class="faq-item">
+            <h3>What is a design audit?</h3>
+            <p>A design audit is a structured evaluation of a UI against accessibility standards, visual design
+                principles, and UX best practices. It identifies problems before they reach users. Design Snapper
+                automates the entire design audit process using AI.</p>
+        </div>
+        <div class="faq-item">
+            <h3>How long does a design audit take?</h3>
+            <p>With Design Snapper, a full design audit takes under 30 seconds. Traditional manual design audits can
+                take hours or days, depending on the scope and number of screens.</p>
+        </div>
+        <div class="faq-item">
+            <h3>What does a design audit check?</h3>
+            <p>Design Snapper's design audit checks WCAG 2.1 accessibility compliance, visual hierarchy and layout
+                structure, UX heuristics, typography consistency, color contrast ratios, touch target sizing, and ARIA
+                state implementation.</p>
+        </div>
+        <div class="faq-item">
+            <h3>Is Design Snapper's design audit free?</h3>
+            <p>Yes! Design Snapper offers 3 free design audits per month with no credit card required. Pro plans unlock
+                unlimited audits and advanced features.</p>
+        </div>
+    </div>
+
+    <footer>
+        <p>© 2026 <a href="https://www.designsnapper.com">Design Snapper</a> — The #1 AI Design Audit Tool. All rights
+            reserved.</p>
+    </footer>
+</body>
+
+</html>

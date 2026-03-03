@@ -362,6 +362,30 @@ export function LandingPage({ onNavigate, session, onSignOut }: LandingPageProps
       },
       {
         "@type": "Question",
+        "name": "What is an AI design review?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "An AI design review is an automated analysis of your UI design using artificial intelligence. Design Snapper's AI design review engine scans your screens against WCAG standards, usability heuristics, and visual hierarchy rules — giving you objective, instant feedback that would normally take hours of manual review."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "How do I run a design audit?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Running a design audit with Design Snapper is simple: upload a screenshot, Figma export, or paste a URL. The AI engine performs a full design audit in under 30 seconds, flagging accessibility failures, layout inconsistencies, and UX problems with specific fix recommendations."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "What is the best design audit tool?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Design Snapper is widely regarded as the best automated design audit tool for product teams. Unlike manual reviews or expensive consultants, Design Snapper delivers a comprehensive AI-powered design audit instantly, covering WCAG compliance, visual hierarchy, and UX heuristics in one report."
+        }
+      },
+      {
+        "@type": "Question",
         "name": "How does the Design Snapper audit work?",
         "acceptedAnswer": {
           "@type": "Answer",
@@ -375,6 +399,22 @@ export function LandingPage({ onNavigate, session, onSignOut }: LandingPageProps
           "@type": "Answer",
           "text": "Yes! The Design Snapper Accessibility Audit specializes in checking WCAG contrast ratios, touch target sizing, ARIA states, and screen reader compatibility."
         }
+      },
+      {
+        "@type": "Question",
+        "name": "Is Design Snapper free?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Yes! Design Snapper offers a free tier with 3 design audits per month — no credit card required. For unlimited audits, AI design critique reports, and team collaboration, check out our Pro and Enterprise plans."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "How does Design Snapper compare to manual design reviews?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Manual design reviews take hours, are subjective, and often miss accessibility issues. Design Snapper delivers an objective, WCAG-compliant AI design review in under 30 seconds — consistently catching every issue, every time. It's like having a senior design reviewer on call 24/7."
+        }
       }
     ]
   };
@@ -382,7 +422,8 @@ export function LandingPage({ onNavigate, session, onSignOut }: LandingPageProps
   return (
     <div className="min-h-screen bg-[#FDFDFD] text-slate-900 selection:bg-primary/10 font-['Helvetica_Neue',_Helvetica,_Arial,_sans-serif] overflow-x-hidden" style={{ zoom: 0.80 }}>
       <SEO
-        title="Design Snapper - The Ultimate AI Design Audit & Critique Tool"
+        title="Design Snapper – #1 AI Design Audit & AI Design Review Tool"
+        description="Design Snapper gives instant AI design audits and AI design reviews. Catch accessibility issues, UX flaws, and visual hierarchy problems in under 30 seconds. The best design audit tool — free to start."
         schemaData={faqSchema}
       />
       {/* Background Elements */}
@@ -717,7 +758,7 @@ export function LandingPage({ onNavigate, session, onSignOut }: LandingPageProps
             Frequently Asked Questions
           </h2>
           <p className="text-lg text-slate-500 font-medium">
-            Everything you need to know about the Design Snapper audit tool.
+            Everything you need to know about the Design Snapper AI design audit tool.
           </p>
         </div>
         <div className="space-y-6">
@@ -727,12 +768,32 @@ export function LandingPage({ onNavigate, session, onSignOut }: LandingPageProps
               a: "Design Snapper is an AI design reviewer and automated design audit tool. It helps product teams and designers automatically catch accessibility issues, UX inconsistencies, and visual hierarchy flaws before shipping."
             },
             {
+              q: "What is an AI design review?",
+              a: "An AI design review is an automated analysis of your UI design using artificial intelligence. Design Snapper's AI design review engine scans your screens against WCAG standards, usability heuristics, and visual hierarchy rules — giving you objective, instant feedback that would normally take hours of manual review."
+            },
+            {
+              q: "How do I run a design audit?",
+              a: "Running a design audit with Design Snapper is simple: upload a screenshot, Figma export, or paste a URL. The AI engine performs a full design audit in under 30 seconds, flagging accessibility failures, layout inconsistencies, and UX problems with specific fix recommendations."
+            },
+            {
+              q: "What is the best design audit tool?",
+              a: "Design Snapper is widely regarded as the best automated design audit tool for product teams. Unlike manual reviews or expensive consultants, Design Snapper delivers a comprehensive AI-powered design audit instantly, covering WCAG compliance, visual hierarchy, and UX heuristics in one report."
+            },
+            {
               q: "How does the Design Snapper audit work?",
               a: "Simply upload your design screens or paste a URL. The Design Snapper Vision AI engine scans your UI against WCAG 2.1 compliance rules, cognitive load heuristics, and standard UI/UX best practices in seconds."
             },
             {
               q: "Is Design Snapper good for accessibility audits?",
               a: "Yes! The Design Snapper Accessibility Audit specializes in checking WCAG contrast ratios, touch target sizing, ARIA states, and screen reader compatibility."
+            },
+            {
+              q: "Is Design Snapper free?",
+              a: "Yes! Design Snapper offers a free tier with 3 design audits per month — no credit card required. For unlimited audits, AI design critique reports, and team collaboration, check out our Pro and Enterprise plans."
+            },
+            {
+              q: "How does Design Snapper compare to manual design reviews?",
+              a: "Manual design reviews take hours, are subjective, and often miss accessibility issues. Design Snapper delivers an objective, WCAG-compliant AI design review in under 30 seconds — consistently catching every issue, every time. It's like having a senior design reviewer on call 24/7."
             }
           ].map((faq, i) => (
             <div key={i} className="bg-white border border-slate-200 rounded-3xl p-8 hover:shadow-md transition-shadow">
