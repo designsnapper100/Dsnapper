@@ -244,7 +244,7 @@ export function AnnotationDashboard({ onNavigate, data, session, onSignOut }: An
       });
       if (!response.ok) throw new Error('Failed to share');
       const { shareId } = await response.json();
-      setShareUrl(`${window.location.origin}${window.location.pathname}?reportId=${shareId}`);
+      setShareUrl(`${window.location.origin}/dashboard?reportId=${shareId}`);
       setShowShareModal(true);
       toast.success("Sharable link ready!");
     } catch (err) {
