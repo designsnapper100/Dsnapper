@@ -418,11 +418,10 @@ You MUST prioritize your findings based on these selected categories and the ind
 ` : `
 AUDIT SCOPE:
 You must identify 6-10 specific issues across these exact categories:
-1. CONTRAST: WCAG 2.1 compliance, text legibility, color-blind accessibility.
-2. USABILITY: Information architecture, interaction patterns, cognitive load.
-3. CONSISTENCY: UI patterns, spacing systems, radius harmony, icon stroke weights.
-4. VISUAL: Balance, white space, color theory, alignment precision, visual hierarchy.
-5. CONVERSION: Sales triggers, value proposition clarity, CTA prominence.
+1. CONTRAST & ACCESSIBILITY: WCAG 2.1 compliance, text legibility, color-blind accessibility, contrast ratios.
+2. HEURISTIC: Recognition vs Recall, System Feedback, Real World Match, Minimalist Design, Error Prevention, Flexibility, user control.
+3. VISUAL: Visual Weight, Typography Scale, Visual Identity, white space, color theory, alignment precision, visual hierarchy, consistency, spacing.
+4. BUSINESS: Trust Signals, CTA Clarity, Cognitive Load, value proposition clarity, conversion optimization, efficiency of flow.
 `}
 
 CONSTRAINTS:
@@ -470,7 +469,7 @@ OUTPUT FORMAT (Strict JSON):
       "x": number,
       "y": number,
       "category": "visual" | "business" | "heuristic" | "contrast",
-      "tag": "Hierarchy" | "Consistency" | "Spacing" | "Contrast" | "Balance" | "Conversion" | "Clarity" | "Trust" | "Efficiency" | "Differentiation" | "Visibility" | "Prevention" | "Control" | "Recognition" | "Feedback",
+      "tag": "Hierarchy" | "Consistency" | "Spacing" | "Contrast & Accessibility" | "Visual Weight" | "Typography Scale" | "Visual Identity" | "Conversion" | "Clarity" | "Trust Signals" | "Efficiency" | "CTA Clarity" | "Cognitive Load" | "Visibility" | "Error Prevention" | "Control" | "Recognition vs Recall" | "System Feedback" | "Real World Match" | "Minimalist Design" | "Flexibility",
       "severity": "critical" | "minor",
       "title": "A statement of the issue.",
       "current": "Max 8 words description of the specific visual error.",

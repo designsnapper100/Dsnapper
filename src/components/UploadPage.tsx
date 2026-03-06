@@ -142,17 +142,17 @@ const CRITERIA_FRAMEWORK = {
   visual: {
     title: 'Visual UI Design',
     icon: <Layout className="w-4 h-4" />,
-    items: ['Hierarchy', 'Consistency', 'Spacing', 'Contrast', 'Balance']
+    items: ['Hierarchy', 'Consistency', 'Spacing', 'Contrast & Accessibility', 'Visual Weight', 'Typography Scale', 'Visual Identity']
   },
   business: {
     title: 'Business Impact',
     icon: <Target className="w-4 h-4" />,
-    items: ['Conversion', 'Clarity (Value Prop)', 'Trust', 'Efficiency (Flow)', 'Differentiation']
+    items: ['Conversion', 'Clarity (Value Prop)', 'Trust Signals', 'Efficiency (Flow)', 'CTA Clarity', 'Cognitive Load']
   },
   heuristic: {
     title: 'Heuristic Evaluation',
     icon: <Search className="w-4 h-4" />,
-    items: ['Visibility (Status)', 'Prevention (Errors)', 'Control (Freedom)', 'Recognition', 'Feedback']
+    items: ['Visibility (Status)', 'Error Prevention', 'Control (Freedom)', 'Recognition vs Recall', 'System Feedback', 'Real World Match', 'Minimalist Design', 'Flexibility']
   }
 };
 
@@ -182,9 +182,9 @@ export function UploadPage({ onNavigate, data, session, onSignOut, credits: cred
     business: string[];
     heuristic: string[];
   }>({
-    visual: ['Hierarchy', 'Consistency', 'Spacing', 'Contrast', 'Balance'],
-    business: ['Conversion', 'Clarity', 'Trust', 'Efficiency', 'Differentiation'],
-    heuristic: ['Visibility', 'Prevention', 'Control', 'Recognition', 'Feedback']
+    visual: ['Hierarchy', 'Consistency', 'Spacing', 'Contrast & Accessibility', 'Visual Weight', 'Typography Scale', 'Visual Identity'],
+    business: ['Conversion', 'Clarity', 'Trust Signals', 'Efficiency', 'CTA Clarity', 'Cognitive Load'],
+    heuristic: ['Visibility', 'Error Prevention', 'Control', 'Recognition vs Recall', 'System Feedback', 'Real World Match', 'Minimalist Design', 'Flexibility']
   });
 
   const fileInputRef = useRef<HTMLInputElement>(null);
